@@ -35,26 +35,26 @@ def get_build_no():
 def backup_savedconnections_file():
     home_dir = os.path.expanduser("~")
     build_no = get_build_no()
-    saved_conn_file = os.path.join(home_dir, f'.redexpert/{build_no}/savedconnections.xml')
+    saved_conn_file = os.path.join(home_dir, f'.rdb_expert/{build_no}/connection-saved.xml')
     shutil.move(saved_conn_file, saved_conn_file + ".bak")
 
 def restore_savedconnections_file():
     home_dir = os.path.expanduser("~")
     build_no = get_build_no()
-    saved_conn_file = os.path.join(home_dir, f'.redexpert/{build_no}/savedconnections.xml')
+    saved_conn_file = os.path.join(home_dir, f'.rdb_expert/{build_no}/connection-saved.xml')
     if os.path.exists(saved_conn_file + ".bak"):
         shutil.move(saved_conn_file + ".bak", saved_conn_file)
 
 def backup_user_properties():
     home_dir = os.path.expanduser("~")
     build_no = get_build_no()
-    user_properties_file = os.path.join(home_dir, f'.redexpert/{build_no}/eq.user.properties')
+    user_properties_file = os.path.join(home_dir, f'.rdb_expert/{build_no}/user.properties')
     shutil.copy(user_properties_file, user_properties_file + ".bak")
 
 def restore_user_properties():
     home_dir = os.path.expanduser("~")
     build_no = get_build_no()
-    user_properties_file = os.path.join(home_dir, f'.redexpert/{build_no}/eq.user.properties')
+    user_properties_file = os.path.join(home_dir, f'.rdb_expert/{build_no}/user.properties')
     if os.path.exists(user_properties_file):
         os.remove(user_properties_file)
     shutil.move(user_properties_file + ".bak", user_properties_file)
@@ -62,7 +62,7 @@ def restore_user_properties():
 def set_urls(urls: str):
     home_dir = os.path.expanduser("~")
     build_no = get_build_no()
-    user_properties_file = os.path.join(home_dir, f'.redexpert/{build_no}/eq.user.properties')
+    user_properties_file = os.path.join(home_dir, f'.rdb_expert/{build_no}/user.properties')
     with open(user_properties_file, 'r') as f:
         context = f.read()
 
@@ -102,11 +102,11 @@ def get_path():
 def clear_history_files():
     home_dir = os.path.expanduser("~")
     build_no = get_build_no()
-    history_file = os.path.join(home_dir, f'.redexpert/{build_no}/ConnectionHistory.xml')
-    saved_conn_file = os.path.join(home_dir, f'.redexpert/{build_no}/savedconnections.xml')
-    shortcuts_file = os.path.join(home_dir, f'.redexpert/{build_no}/eq.shortcuts.properties')
-    user_panel_state_file = os.path.join(home_dir, f'.redexpert/{build_no}/re.user.panels.state')
-    query_dir = os.path.join(home_dir, f'.redexpert/{build_no}/QueryEditor')
+    history_file = os.path.join(home_dir, f'.rdb_expert/{build_no}/connection-history.xml')
+    saved_conn_file = os.path.join(home_dir, f'.rdb_expert/{build_no}/connection-saved.xml')
+    shortcuts_file = os.path.join(home_dir, f'.rdb_expert/{build_no}/shortcuts.xml')
+    user_panel_state_file = os.path.join(home_dir, f'.rdb_expert/{build_no}/saved-values.xml')
+    query_dir = os.path.join(home_dir, f'.rdb_expert/{build_no}/QueryEditor')
     if os.path.exists(query_dir):
         shutil.rmtree(query_dir)
     if os.path.exists(saved_conn_file):
@@ -203,7 +203,7 @@ def execute_immediate(query: str):
 def delete_query_files():
     build_no = get_build_no()
     home_dir = os.path.expanduser("~")
-    for path in Path(os.path.join(home_dir, f'.redexpert/{build_no}/QueryEditor')).glob("script*.sql"):
+    for path in Path(os.path.join(home_dir, f'.rdb_expert/{build_no}/QueryEditor')).glob("script*.sql"):
         os.remove(path)
 
 def check_build_config(conf_path: str, number: int):
