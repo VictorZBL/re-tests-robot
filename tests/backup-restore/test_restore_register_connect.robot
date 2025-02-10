@@ -4,16 +4,17 @@ Library    OperatingSystem
 Resource    ../../files/keywords.resource
 Test Setup       Setup before every tests
 Test Teardown    Teardown after every tests
+Test Timeout    60s
 
 *** Test Cases ***
-test_1
+test_1    
     ${bk_path}=    Catenate    SEPARATOR=    ${TEMPDIR}    /employee_backup.fbk
     Remove File    ${bk_path}
     Select From Main Menu    Database|Database Backup/Restore
     Uncheck All Checkboxes
     Clear Text Field     backupFileField
     Type Into Text Field    backupFileField    ${bk_path}
-
+    
     Push Button    backupButton
     Sleep    2s
     Select Dialog    Message
@@ -36,9 +37,7 @@ test_1
     Select Main Window
     Tree Node Should Exist    0    employee_restore (Copy)
 
-
-    Remove Files    ${mew_db_path}    ${mew_db_path1}    ${bk_path}
-
+    Remove Files    ${mew_db_path}    ${mew_db_path1}    ${bk_path} 
 
 *** Keywords ***
 Restore
