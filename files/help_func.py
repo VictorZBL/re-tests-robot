@@ -87,7 +87,7 @@ def get_path():
     COVERAGE = os.environ.get('COVERAGE')
     bin = "" if platform.system() == "Linux" else ".exe"
     if COVERAGE:
-        path_to_exe = f"java -javaagent:./lib/jacocoagent.jar=destfile=./results/jacoco.exec,output=file -jar {DIST}/RedExpert.jar -exe_path={DIST}/bin/RedExpert64"
+        path_to_exe = f"java -javaagent:./lib/jacocoagent.jar=destfile=./results/jacoco.exec,output=file -jar {DIST}/RDBExpert.jar -exe_path={DIST}/bin/RedExpert64"
         return path_to_exe
     if DIST:
         path_to_exe = DIST + "/bin"
