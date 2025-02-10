@@ -8,16 +8,16 @@ Test Teardown    Teardown
 old_api
     Run Server
     Backup User Properties
-    Set Urls    urls=\nupdate.use.https=false \n reddatabase.check.rc.url=http\://localhost\nreddatabase.check.url=http\://localhost\nreddatabase.get-files.url=http\://localhost/?project\=redexpert&version\=    
+    Set Urls    urls=\nupdate.use.https=false \n reddatabase.check.rc.url=http\://localhost\nreddatabase.check.url=http\://localhost\nreddatabase.get-files.url=http\://localhost/?project\=RDBExpert&version\=    
     ${path_to_exe}=    Copy Dist Path
     Start Red Expert    ${path_to_exe}
-    Select Window    regexp=^Red.*
+    Select Window    regexp=^RDB.*
     Select From Menu    Help|Check for Update
     Sleep       5s
-    Select Dialog    RedExpert Update
+    Select Dialog    RDBExpert Update
     Push Button      No
     Sleep    1s
-    Select Dialog    RedExpert Update
+    Select Dialog    RDBExpert Update
     Push Button      Yes
     Sleep       10s    
     Select Dialog    Update downloaded
@@ -35,14 +35,14 @@ new_api
     Set Urls   urls=\nupdate.use.https=false\nupdate.check.url=http\://localhost/?project=redexpert\nupdate.check.rc.url=http\://localhost/?project=redexpert&showrc=true
     ${path_to_exe}=    Copy Dist Path
     Start Red Expert    ${path_to_exe}
-    Select Window    regexp=^Red.*
+    Select Window    regexp=^RDB.*
     Select From Menu    Help|Check for Update
     Sleep       5s
-    Select Dialog    RedExpert Update
+    Select Dialog    RDBExpert Update
     Push Button      Yes
     Close Dialog    Latest Version Info
     Sleep    1s
-    Select Dialog    RedExpert Update
+    Select Dialog    RDBExpert Update
     Push Button      Yes
     Sleep       10s    
     Select Dialog    Update downloaded

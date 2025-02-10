@@ -122,7 +122,7 @@ Check Comment
     Init Commit Window
 
 Init Commit Window
-    Select Window    regexp=^Red.*
+    Select Window    regexp=^RDB.*
     Push Button    submitButton
     Select Dialog    dialog0
     Sleep    1s

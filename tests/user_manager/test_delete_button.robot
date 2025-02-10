@@ -22,7 +22,7 @@ test_1
     Select Dialog    dialog1
     Push Button      commitButton
     Sleep    1s
-    Select Window    regexp=^Red.*
+    Select Window    regexp=^RDB.*
     ${row}=    Find Table Row    usersTable    TEST    User name
     ${cellValue}=    Get Table Cell Value    usersTable    ${row}    User name
     Should Be Equal  TEST    ${cellValue}

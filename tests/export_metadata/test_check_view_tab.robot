@@ -43,5 +43,5 @@ Export
     Sleep    5s
     Close Dialog    Message
     Select Tab As Context    View
-    Select Window    regexp=^Red.*
+    Select Window    regexp=^RDB.*
     RETURN    ${rdb5}

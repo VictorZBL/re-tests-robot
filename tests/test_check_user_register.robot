@@ -13,7 +13,7 @@ test_1
     Open connection
     Expand Tree Node    0    New Connection
     ${res1}=    Check user    DEMO    
-    Select Window    regexp=^Red.*
+    Select Window    regexp=^RDB.*
     ${res2}=    Check user    dEmO
     
     Execute Immediate    DROP USER "DEMO"

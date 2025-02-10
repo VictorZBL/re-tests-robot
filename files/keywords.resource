@@ -8,13 +8,14 @@ Setup before every tests
     ${path_to_exe}=    Get Path
     Log    ${path_to_exe}    console=True
     TRY
-        Start Application    red_expert    ${path_to_exe}    timeout=20   
+        Start Application    rdb_expert    ${path_to_exe}    timeout=20   
+        # Start Application    rdb_expert     java -javaagent:D:/re-tests-robot/lib/jacocoagent.jar=destfile=D:/re-tests-robot/results/jacoco.exec,output=file -jar D:/projects/rdbExpert/RDBExpert.jar -exe_path=D:/projects/RedExpert/bin/RDBExpert.exe    timeout=20
     EXCEPT    RemoteSwingLibraryTimeoutError: Agent port not received before timeout
-        Log    Red Expert failed to launch    console=True
-        Kill RedExpert
+        Log    RDBExpert failed to launch    console=True
+        Kill Rdbexpert
     END
 
-    Select Window    regexp=^Red.*
+    Select Window    regexp=^RDB.*
 
 Teardown after every tests
     System Exit    0

@@ -21,6 +21,6 @@ test_1
     Select Dialog    dialog1
     ${textFieldValue}=    Get Textfield Value    0
     Push Button      commitButton
-    Select Window    regexp=^Red.*
+    Select Window    regexp=^RDB.*
     ${row}=    Find Table Row    0    TEST    Name
     Should Not Be Equal As Integers    ${row}    -1  

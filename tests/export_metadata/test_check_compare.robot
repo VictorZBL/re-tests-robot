@@ -31,19 +31,19 @@ test_switch_database
     Delete Files    ${files}
     firebird.driver.Create Database    database=${test_base_path}    user=SYSDBA    password=masterkey
     Create Connect    ${test_base_path}
-    Select Window    regexp=^Red.*
+    Select Window    regexp=^RDB.*
     Push Button    comparerDB-command
     Select From Combo Box    dbMasterComboBox    New Connection 1
     Push Button    selectAllAttributesButton
     Check Compare DB    Objects to create - 59    Objects to drop - 0
-    Select Window    regexp=^Red.*
+    Select Window    regexp=^RDB.*
     Push Button    switchTargetSourceButton
     Check Compare DB    Objects to create - 0    Objects to drop - 59
 
 *** Keywords ***
 Create Connect
     [Arguments]    ${test_base_path}
-    Select Window    regexp=^Red.*
+    Select Window    regexp=^RDB.*
     Push Button    new-connection-command
     Sleep    1s
     Type Into Text Field    3    ${test_base_path}

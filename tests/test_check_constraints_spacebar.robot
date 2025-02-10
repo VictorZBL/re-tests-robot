@@ -20,7 +20,7 @@ test_1
     Push Button    submitButton
     Select Dialog    dialog1
     Push Button    commitButton
-    Select Window    regexp=^Red.*
+    Select Window    regexp=^RDB.*
     Select Tab As Context    Constraints 
     ${row}=    Find Table Row    0    UNIQUE    Type
     Should Not Be Equal As Integers    ${row}    -1  

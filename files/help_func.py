@@ -11,18 +11,16 @@ from firebird.driver import driver_config, connect_server, SrvInfoCode
 from pathlib import Path
 
 
-def kill_redexpert():
+def kill_rdbexpert():
     time.sleep(10)
     bin = "" if platform.system() == "Linux" else ".exe"
     for proc in psutil.process_iter():
-        if proc.name() == f'RedExpert64{bin}':
+        if proc.name() == f'RDBExpert{bin}':
             proc.terminate()
 
 def run_server():
-    PYTHON = os.environ.get('PYTHON')
     global p 
-    p = subprocess.Popen([PYTHON, "./files/run_server.py"], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-    # p = Popen(["python", "./files/run_server.py"])
+    p = subprocess.Popen([os.environ.get('PYTHON', 'python'), "./files/run_server.py"], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     time.sleep(5)
 
 def stop_server():
@@ -71,32 +69,17 @@ def set_urls(urls: str):
     with open(user_properties_file, 'w') as f:
         f.write(context)
 
-
 def get_path_to_lib():
-    DIST = os.environ.get('DIST')
-    if DIST:
-        path_to_exe = DIST + "/lib"
-    else:
-        path_to_exe = 'C:\\Program Files\\RedExpert\\lib'
-    return path_to_exe
-
+    return os.environ.get('DIST', "C:\\Program Files\\RedExpert") + "/lib"
 
 def get_path():
-    DIST = os.environ.get('DIST')
-    ARCH = os.environ.get('ARCH')
+    DIST = os.environ.get('DIST', "C:\\Program Files\\RedExpert")
     COVERAGE = os.environ.get('COVERAGE')
     bin = "" if platform.system() == "Linux" else ".exe"
     if COVERAGE:
-        path_to_exe = f"java -javaagent:./lib/jacocoagent.jar=destfile=./results/jacoco.exec,output=file -jar {DIST}/RDBExpert.jar -exe_path={DIST}/bin/RedExpert64"
-        return path_to_exe
-    if DIST:
-        path_to_exe = DIST + "/bin"
-        if ARCH == "x86_64":
-            path_to_exe += f"/RedExpert64{bin}" 
-        else:
-            path_to_exe += f"/RedExpert{bin}"
+        path_to_exe = f"java -javaagent:./lib/jacocoagent.jar=destfile=./results/jacoco.exec,output=file -jar {DIST}/RDBExpert.jar -exe_path={DIST}/bin/RDBExpert"
     else:
-        path_to_exe = '"C:\\Program Files\\RedExpert\\bin\\RedExpert64.exe"'
+        path_to_exe = DIST + f"/bin/RDBExpert{bin}"
     return path_to_exe
 
 def clear_history_files():
@@ -129,15 +112,11 @@ def copy_dist_path():
     # DIST = "D:/Program Files/RedExpert"
     tmp_dir = tempfile.gettempdir()
 
-    if os.path.exists(tmp_dir + '/RedExpert'):
-        shutil.rmtree(tmp_dir + '/RedExpert')
-    return_path = shutil.copytree(DIST, tmp_dir + '/RedExpert')
+    if os.path.exists(tmp_dir + '/RDBExpert'):
+        shutil.rmtree(tmp_dir + '/RDBExpert')
+    return_path = shutil.copytree(DIST, tmp_dir + '/RDBExpert')
     bin = "" if platform.system() == "Linux" else ".exe"
-    path_to_exe = return_path + "/bin"
-    if ARCH == "x86_64":
-        path_to_exe += f"/RedExpert64{bin}" 
-    else:
-        path_to_exe += f"/RedExpert{bin}"
+    path_to_exe = return_path + f"/bin/RDBExpert{bin}"
     return path_to_exe
 
 def set_config():

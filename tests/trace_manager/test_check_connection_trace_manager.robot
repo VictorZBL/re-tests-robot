@@ -21,7 +21,7 @@ test_1
     Close Dialog    Build configuration file
 
     #create connection
-    Select Window    regexp=^Red.*
+    Select Window    regexp=^RDB.*
     Select Tab As Context    Connection
     List Components In Context
     Select From Combo Box    databaseBox    New Connection
@@ -31,13 +31,13 @@ test_1
     Check Check Box    logToFileBox
     Clear Text Field    fileLogField
     Type Into Text Field    fileLogField    ${log_path}
-    Select Window    regexp=^Red.*
+    Select Window    regexp=^RDB.*
     Push Button    Start
 
     #fill log file
     Select Tab As Context    Session Manager
     Push Button    Refresh list
-    Select Window    regexp=^Red.*
+    Select Window    regexp=^RDB.*
     Push Button    visibleColumnsButton
     Select Dialog    Visible Columns
     Push Button    removeAllButton
@@ -48,16 +48,16 @@ test_1
     Click On List Item    0    TYPE_QUERY_SERVICE
     Push Button    selectOneButton
     Close Dialog    Visible Columns
-    Select Window    regexp=^Red.*
+    Select Window    regexp=^RDB.*
     Select Tab As Context    Session Manager
     Click On List Item    0    New
     Push Button    Stop session
     Sleep    5s
-    Select Window    regexp=^Red.*
+    Select Window    regexp=^RDB.*
     Push Button    Stop
     Sleep    5s
     Select Tab As Context    Grid View
-    Select Window    regexp=^Red.*
+    Select Window    regexp=^RDB.*
     Push Button    Clear Table
     Sleep    5s
     Select Tab As Context    Grid View
@@ -77,7 +77,7 @@ test_2
     Select Dialog    Open
     Type Into Text Field    0    ${log_path}
     Push Button    Open
-    Select Window    regexp=^Red.*
+    Select Window    regexp=^RDB.*
     Select Tab As Context    Grid View
     Select From Combo Box    1    TYPE_QUERY_SERVICE
     Type Into Text Field    0    Start

@@ -49,7 +49,7 @@ Start
 
 Create Connect
     [Arguments]    ${test_base_path}
-    Select Window    regexp=^Red.*
+    Select Window    regexp=^RDB.*
     Push Button    new-connection-command
     Sleep    1s
     Type Into Text Field    3    ${test_base_path}
@@ -59,7 +59,7 @@ Create Connect
     Push Button    saveButton
 
 Compare DB
-    Select Window    regexp=^Red.*
+    Select Window    regexp=^RDB.*
     Push Button    comparerDB-command
     Select From Combo Box    dbMasterComboBox    New Connection 1
     Push Button    selectAllAttributesButton
