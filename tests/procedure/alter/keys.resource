@@ -1,6 +1,6 @@
 *** Settings ***
 Library    RemoteSwingLibrary
-Resource    ../../files/keywords.resource
+Resource    ../../../files/keywords.resource
 
 *** Keywords ***
 Setup
