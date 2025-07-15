@@ -2,7 +2,7 @@
 Library    RemoteSwingLibrary
 Resource   ../../files/keywords.resource
 Test Setup       Setup
-Test Teardown    Teardown after every tests
+Test Teardown    Teardown
 
 *** Variables ***
 ${TEST_USERNAME}    TEST_USER
@@ -15,14 +15,23 @@ ${FIELD_INDEX_MIDDLE_NAME}    middleNameField
 ${FIELD_INDEX_LAST_NAME}    lastNameField
 
 *** Test Cases ***
-test_edit_first_name
-    Edit And Verify User Field    ${FIELD_INDEX_FIRST_NAME}    ${TEST_NEW_USER_FIRST_NAME}
+test_edit_name
+    Create User
+    Open connection
+    Expand Tree Node    0    New Connection
+    Select From Tree Node Popup Menu    0    New Connection|Users (2)|${TEST_USERNAME}    Edit user
+    Sleep    2s
+    Select Tab    Properties
+    Sleep    1s
+    Type Into Text Field    ${FIELD_INDEX_FIRST_NAME}     ${TEST_NEW_USER_FIRST_NAME}
+    Type Into Text Field    ${FIELD_INDEX_MIDDLE_NAME}    ${TEST_NEW_USER_MIDDLE_NAME}
+    Type Into Text Field    ${FIELD_INDEX_LAST_NAME}    ${TEST_NEW_USER_LAST_NAME}
+    Check    ALTER USER TEST_USER USING PLUGIN Srp FIRSTNAME '${TEST_NEW_USER_FIRST_NAME}' MIDDLENAME '${TEST_NEW_USER_MIDDLE_NAME}' LASTNAME '${TEST_NEW_USER_LAST_NAME}'
+    Sleep    1s
 
-test_edit_middle_name
-    Edit And Verify User Field    ${FIELD_INDEX_MIDDLE_NAME}    ${TEST_NEW_USER_MIDDLE_NAME}
-
-test_edit_last_name
-    Edit And Verify User Field    ${FIELD_INDEX_LAST_NAME}    ${TEST_NEW_USER_LAST_NAME}
+    Check Updated Text Field    ${FIELD_INDEX_FIRST_NAME}     ${TEST_NEW_USER_FIRST_NAME}
+    Check Updated Text Field    ${FIELD_INDEX_MIDDLE_NAME}    ${TEST_NEW_USER_MIDDLE_NAME}
+    Check Updated Text Field    ${FIELD_INDEX_LAST_NAME}    ${TEST_NEW_USER_LAST_NAME}
 
 test_edit_flags
     Create User
@@ -41,7 +50,6 @@ test_edit_flags
     Select Main Window
     Checkbox Should Be Unchecked    isActiveCheck
     Checkbox Should Be Checked      isAdminCheck
-    [Teardown]    Drop User    ${TEST_USERNAME}
 
 test_add_new_tags
     Create User
@@ -68,7 +76,6 @@ test_add_new_tags
     Select Main Window
     @{values}=    Get Table Values    tagTable
     Should Be Equal As Strings    ${values}    [['pc', '123'], ['Card', '']]
-    [Teardown]    Drop User    ${TEST_USERNAME}
 
 test_append_tags_to_precreated_user_tags
     Execute Immediate    CREATE USER ${TEST_USERNAME} PASSWORD '${TEST_USER_PASSWORD}' ACTIVE USING PLUGIN Srp TAGS (CARD = '123', PC = '999')
@@ -102,7 +109,6 @@ test_append_tags_to_precreated_user_tags
     @{final_tags}=    Get Table Values    tagTable
     ${sorted_final}=  Evaluate    sorted(${final_tags})
     Should Be Equal As Strings    ${sorted_final}    [['Added1', 'val1'], ['Added2', 'val2'], ['CARD', '123'], ['PC', '999']]
-    [Teardown]    Drop User    ${TEST_USERNAME}
 
 test_add_new_comment_full_commit
     Create User
@@ -122,7 +128,6 @@ test_add_new_comment_full_commit
     Push Button    commitButton
     Sleep    2s
     Check Updated Text Field    1    test_comment
-    [Teardown]    Drop User    ${TEST_USERNAME}
 
 test_add_new_comment_commit
     Create User
@@ -139,7 +144,6 @@ test_add_new_comment_commit
     Push Button    updateCommentButton
     Sleep    0.1s
     Check Updated Text Field    1    test_comment
-    [Teardown]    Drop User    ${TEST_USERNAME}
 
 test_user_ddl_after_modification
     Create User
@@ -174,7 +178,6 @@ test_user_ddl_after_modification
     Should Contain    ${ddl}    CREATE USER ${TEST_USERNAME}
     Should Contain    ${ddl}    TAGS (EXAMPLE_TAG = 'value123')
     Should Contain    ${ddl}    COMMENT ON USER ${TEST_USERNAME} USING PLUGIN Srp IS 'test_comment'
-    [Teardown]    Drop User    ${TEST_USERNAME}
 
 *** Keywords ***
 Setup
@@ -187,35 +190,41 @@ Create User
     Execute Immediate    CREATE USER ${TEST_USERNAME} PASSWORD '${TEST_USER_PASSWORD}' ACTIVE USING PLUGIN Srp
 
 Drop User
-    [Arguments]    ${user_name}
     Teardown after every tests
-    Run Keyword And Ignore Error    Execute Immediate    DROP USER ${user_name}
-
-Edit User
-    [Arguments]    ${field_name}    ${new_value}    ${user_name}
-    Lock Employee
-    Open connection
-    Expand Tree Node    0    New Connection
-    Select From Tree Node Popup Menu    0    New Connection|Users (2)|${user_name}    Edit user
-    Sleep    2s
-    Select Tab    Properties
-    Sleep    1s
-    Type Into Text Field    ${field_name}    ${new_value}
-    Push Button    Apply
-    Sleep    0.1s
-    Select Dialog    Commiting changes
-    Push Button    commitButton
-    Sleep    1s
+    Run Keyword And Ignore Error    Execute Immediate    DROP USER ${TEST_USERNAME}
 
 Check Updated Text Field
     [Arguments]    ${field_name}    ${predict}
     Select Main Window
     ${textFieldValue}=    Get Text Field Value    ${field_name}
-    Should Be Equal As Strings    ${textFieldValue}    ${predict}
+    Should Be Equal As Strings    ${textFieldValue}    ${predict} 
 
-Edit And Verify User Field
-    [Arguments]    ${field_name}    ${new_value}
-    Create User
-    Edit User    ${field_name}    ${new_value}    ${TEST_USERNAME}
-    Check Updated Text Field    ${field_name}    ${new_value}
-    [Teardown]    Drop User    ${TEST_USERNAME}
+Check
+    [Arguments]    ${expected_sql}    ${comment}=${False}
+    Push Button    submitButton
+    Select Dialog    Commiting changes
+    Sleep    1s
+    IF    ${comment}
+        ${row}=   Find Table Row    0    ALTER USER
+        Click On Table Cell    0    ${row}    Name operation
+        ${res}=    Get Text Field Value    0
+        Should Be Equal As Strings    ${res}    ${expected_sql}    strip_spaces=${True}    collapse_spaces=${True}
+        
+        ${row}=   Find Table Row    0    ADD COMMENT
+        Click On Table Cell    0    ${row}    Name operation
+        ${res}=    Get Text Field Value    0
+        Should Be Equal As Strings    ${res}    COMMENT ON USER """TEST USER""" USING PLUGIN Srp IS 'test_comment'    
+    ELSE
+        ${res}=    Get Text Field Value    0
+        Should Be Equal As Strings    ${res}    ${expected_sql}    strip_spaces=${True}    collapse_spaces=${True}
+    END
+    
+    Push Button    commitButton
+    Sleep    0.1s
+    ${old}=    Set Jemmy Timeout    DialogWaiter.WaitDialogTimeout	0
+    Run Keyword And Expect Error    org.netbeans.jemmy.TimeoutExpiredException: Dialog with name or title 'Commiting changes'    Select Dialog    Commiting changes
+    Select Main Window
+
+Teardown
+    Drop User
+    Teardown after every tests
