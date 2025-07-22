@@ -3,6 +3,7 @@ Library    RemoteSwingLibrary
 Library    OperatingSystem
 Resource    ../files/keywords.resource
 Test Teardown    Teardown
+Test Timeout    
 
 *** Test Cases ***    
 no_reload
