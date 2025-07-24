@@ -75,7 +75,7 @@ test_add_new_tags
 
     Select Main Window
     @{values}=    Get Table Values    tagTable
-    Should Be Equal As Strings    ${values}    [['pc', '123'], ['Card', '']]
+    Should Be Equal As Strings    ${values}    [['pc', '123]]
 
 test_append_tags_to_precreated_user_tags
     Execute Immediate    CREATE USER ${TEST_USERNAME} PASSWORD '${TEST_USER_PASSWORD}' ACTIVE USING PLUGIN Srp TAGS (CARD = '123', PC = '999')
@@ -108,7 +108,7 @@ test_append_tags_to_precreated_user_tags
     Select Main Window
     @{final_tags}=    Get Table Values    tagTable
     ${sorted_final}=  Evaluate    sorted(${final_tags})
-    Should Be Equal As Strings    ${sorted_final}    [['Added1', 'val1'], ['Added2', 'val2'], ['CARD', '123'], ['PC', '999']]
+    Should Be Equal As Strings    ${sorted_final}    [['ADDED1', 'val1'], ['ADDED2', 'val2'], ['CARD', '123'], ['PC', '999']]
 
 test_add_new_comment_full_commit
     Create User

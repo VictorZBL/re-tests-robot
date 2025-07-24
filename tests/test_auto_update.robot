@@ -2,8 +2,7 @@
 Library    RemoteSwingLibrary
 Library    OperatingSystem
 Resource    ../files/keywords.resource
-Test Teardown    Teardown
-Test Timeout    
+Test Teardown    Teardown   
 
 *** Test Cases ***    
 no_reload
@@ -11,6 +10,7 @@ no_reload
     No Reload    ${path_to_exe}
 
 auto_reload
+    [Timeout]
     ${path_to_exe}=    Test Api    \nupdate.use.https=false\nupdate.check.url=http\://localhost/?project=redexpert&version=9999.98\nupdate.check.rc.url=http\://localhost/?project=redexpert&version=9999.98&showrc=true
     Auto Reload
 
@@ -56,6 +56,7 @@ Stop Red Expert
 
 Teardown
     Stop Server
+    Kill Redexpert
     Teardown after every tests
     Restore User Properties
 
