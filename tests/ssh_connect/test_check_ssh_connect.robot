@@ -128,7 +128,7 @@ Setup
     Lock Employee
     Setup before every tests
     Select From Tree Node Popup Menu    0    New Connection    Duplicate connection
-    Select From Tree Node Popup Menu    0    New Connection (Copy)    Connection information
+    Select From Tree Node Popup Menu    0    New Connection (Copy)    Connection properties
     Check Check Box    useSshCheck
     Clear Text Field    sshHostField
     Type Into Text Field    sshHostField    localhost

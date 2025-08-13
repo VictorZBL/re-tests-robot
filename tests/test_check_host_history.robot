@@ -52,7 +52,7 @@ Setup
     Setup before every tests
     Select From Tree Node Popup Menu    0    New Connection    Duplicate connection
     Sleep   2s
-    Select From Tree Node Popup Menu    0    New Connection (Copy)    Connection information
+    Select From Tree Node Popup Menu    0    New Connection (Copy)    Connection properties
     Sleep   2s
     RETURN    ${path}
 
@@ -96,7 +96,7 @@ Set Count Hosts
     Select Main Window
     Select From Tree Node Popup Menu    0    New Connection    Duplicate connection
     Sleep   2s
-    Select From Tree Node Popup Menu    0    New Connection (Copy)    Connection information
+    Select From Tree Node Popup Menu    0    New Connection (Copy)    Connection properties
     Sleep   2s
     RETURN    ${path}
 
