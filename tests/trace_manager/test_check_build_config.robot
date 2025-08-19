@@ -141,27 +141,24 @@ test_service_to_file
     Should Be Equal As Strings    ${values}    ['', 'true', 'path', 'ship', '819', '14', '14', 'true', 'ship', '819', '512', '512', '1024']
 
 test_save_multiple_database
-    Skip
     Init Build
     Select Tab As Context    database
     Insert Into Text Field    nameField    employee.fdb
-    
-    Sleep    5s
-    Uncheck Check Box    checkBoxenabled
-    Sleep    5s
 
+    Select Main Window
+    Select Dialog    Configuration
     Click On Component    newTabButton
     Click On Component    closeTabButton
     
     Click On Component    newTabButton
-    Select Tab As Context    database
-    Type Into Text Field    0    employee2.fdb
+    Select Tab As Context   database
+    Type Into Text Field    nameField    employee2.fdb
     Select Main Window
-    Select Dialog    Confirmation
+    Select Dialog    Configuration
 
     ${conf_path}=    Finish Build
     ${conf_context}=    Get File    ${conf_path}
-    Should Be Equal As Strings    ${conf_context}    123    strip_spaces=${True}    collapse_spaces=${True}
+    Should Be Equal As Strings    ${conf_context}    services { } database = employee.fdb { enabled = true } database = employee2.fdb { enabled = true }    strip_spaces=${True}    collapse_spaces=${True}
 
 test_load_from_profile
     Init Build
