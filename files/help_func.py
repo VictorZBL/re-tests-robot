@@ -252,8 +252,7 @@ def check_build_config(conf_path: str, number: int):
     check_dict["include_filter"] = ["0", "ship"]
     check_dict["exclude_filter"] = ["0", "819"]
     check_dict["connection_id"] = ["0", "14"]
-    check_dict["log_filename"] = ["0", "true"]
-    check_dict["max_log_size"] = ["1024", "0"]
+    check_dict["max_log_size"] = ["50", "50"]
     check_dict["time_threshold"] = ["100", "100"]
     check_dict["max_sql_length"] = ["4096", "0"]
     check_dict["max_blr_length"] = ["8192", "0"]
@@ -262,7 +261,6 @@ def check_build_config(conf_path: str, number: int):
     check_dict["max_arg_count"] = ["0", "4096"]
     check_dict["exclude_gds_codes"] = ["0", "512"]
     check_dict["include_gds_codes"] = ["512", "0"]
-    check_dict["archive_directory"] = ["0", "path"]
 
     with open(conf_path, "r") as f:
         for line in f:

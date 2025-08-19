@@ -41,8 +41,6 @@ test_save_to_file_1
     Type Into Text Field    textFieldexclude_process_filter    true
     Type Into Text Field    textFieldinclude_gds_codes    512
     
-    Clear Text Field    numberTextFieldmax_log_size
-    Type Into Text Field    numberTextFieldmax_log_size     1024
     Clear Text Field    numberTextFieldmax_sql_length
     Type Into Text Field    numberTextFieldmax_sql_length    4096
     Clear Text Field    numberTextFieldmax_blr_length
@@ -73,9 +71,7 @@ test_save_to_file_2
     Uncheck Check Box    log_trigger_compile
     Type Into Text Field    textFieldinclude_filter    ship
     Type Into Text Field    textFieldexclude_filter    819
-    Type Into Text Field    pathFieldlog_filename    true
     Type Into Text Field    textFieldexclude_gds_codes    512
-    Type Into Text Field    pathFieldarchive_directory    path
     
     Clear Text Field    numberTextFieldconnection_id
     Type Into Text Field    numberTextFieldconnection_id     14
@@ -94,8 +90,6 @@ test_service_to_file
     Select From Combo Box    0    RedDatabase 5.0
     Select Tab As Context  services
     Check All Checkboxes
-    Type Into Text Field    pathFieldlog_filename    true
-    Type Into Text Field    pathFieldarchive_directory    path
 
     Type Into Text Field    textFieldinclude_filter    ship
     Type Into Text Field    textFieldexclude_filter    819
@@ -106,12 +100,9 @@ test_service_to_file
     Type Into Text Field    textFieldinclude_gds_codes    512
     Type Into Text Field    textFieldexclude_gds_codes    512
 
-    Clear Text Field    numberTextFieldmax_log_size
-    Type Into Text Field    numberTextFieldmax_log_size     1024
-
     ${conf_path}=    Finish Build
     ${conf_context}=    Get File    ${conf_path}
-    Should Be Equal As Strings    ${conf_context}    services { log_errors = true include_filter = ship cancel_on_error = true log_filename = true include_user_filter = ship include_process_filter = 14 exclude_filter = 819 log_service_query = true enabled = true log_warnings = true exclude_process_filter = true archive_directory = path include_gds_codes = 512 max_log_size = 1024 exclude_user_filter = 819 exclude_gds_codes = 512 log_services = true log_initfini = true } database { enabled = true }    strip_spaces=${True}    collapse_spaces=${True}
+    Should Be Equal As Strings    ${conf_context}    services { log_errors = true include_filter = ship cancel_on_error = true include_user_filter = ship include_process_filter = 14 exclude_filter = 819 log_service_query = true enabled = true log_warnings = true exclude_process_filter = true include_gds_codes = 512 exclude_gds_codes = 512 exclude_user_filter = 819 log_services = true log_initfini = true } database { enabled = true }    strip_spaces=${True}    collapse_spaces=${True}
     
     # load from file
     Push Button    doubleConfigButton
@@ -128,17 +119,16 @@ test_service_to_file
 
     Check Box Should Be Checked    checkBoxlog_initfini
     Check Box Should Be Checked    checkBoxlog_errors
-    Check Box Should Be Checked    checkBoxrotate_log
     Check Box Should Be Checked    checkBoxcancel_on_error
     Check Box Should Be Checked    checkBoxlog_warnings
     Check Box Should Be Checked    checkBoxenabled
     Check Box Should Be Checked    checkBoxlog_services
     Check Box Should Be Checked    checkBoxlog_service_query
     
-    VAR    @{list_of_name_filed}    pathFieldlog_filename    pathFieldarchive_directory    textFieldinclude_user_filter    textFieldexclude_user_filter    textFieldinclude_process_filter    textFieldinclude_process_filter    textFieldexclude_process_filter    textFieldinclude_filter    textFieldexclude_filter    textFieldinclude_gds_codes    textFieldexclude_gds_codes    numberTextFieldmax_log_size
+    VAR    @{list_of_name_filed}    textFieldinclude_user_filter    textFieldexclude_user_filter    textFieldinclude_process_filter    textFieldinclude_process_filter    textFieldexclude_process_filter    textFieldinclude_filter    textFieldexclude_filter    textFieldinclude_gds_codes    textFieldexclude_gds_codes
 
     ${values}=    Check Text Values    @{list_of_name_filed}
-    Should Be Equal As Strings    ${values}    ['', 'true', 'path', 'ship', '819', '14', '14', 'true', 'ship', '819', '512', '512', '1024']
+    Should Be Equal As Strings    ${values}    ['ship', '819', '14', '14', 'true', 'ship', '819', '512', '512']
 
 test_save_multiple_database
     Init Build
@@ -169,8 +159,8 @@ test_load_from_profile
     Check Check Box    checkBoxlog_statement_prepare
     Check Check Box    checkBoxlog_procedure_finish
     Select Tab As Context    database
-    Type Into Text Field    pathFieldlog_filename    true
-    Type Into Text Field    pathFieldarchive_directory    path
+    Type Into Text Field    textFieldinclude_filter    true
+    Type Into Text Field    textFieldexclude_filter    path
     
     Select Dialog    Configuration
     Push Button    saveButton
@@ -191,7 +181,6 @@ test_load_from_profile
     Select Dialog    Configuration
     Select Tab As Context    database
     Check Box Should Be Checked    checkBoxenabled
-    Check Box Should Be Checked    checkBoxrotate_log
     Check Box Should Be Checked    checkBoxlog_statement_finish
 
     Check Box Should Be Unchecked    checkBoxlog_warnings    
@@ -199,10 +188,10 @@ test_load_from_profile
     Check Box Should Be Unchecked    checkBoxlog_statement_prepare
     Check Box Should Be Unchecked    checkBoxlog_procedure_finish
     
-    VAR    @{list_of_name_filed}    pathFieldlog_filename    pathFieldarchive_directory
+    VAR    @{list_of_name_filed}    textFieldinclude_filter    textFieldexclude_filter
 
     ${values}=    Check Text Values    @{list_of_name_filed}
-    Should Be Equal As Strings    ${values}    ['', '', '']
+    Should Be Equal As Strings    ${values}    ['', '']
     
     Select Dialog    Configuration
     Push Button    cancelButton
@@ -230,7 +219,7 @@ Check Incorrect Name
 
 Check Text Values
     [Arguments]    @{list_of_name_filed}
-    VAR    @{values}    ${EMPTY}
+    VAR    @{values}
     FOR    ${par}    IN    @{list_of_name_filed}
         ${value}=    Get Text Field Value    ${par}
         Append To List    ${values}    ${value}
@@ -279,13 +268,8 @@ Check Database Properties
         Check FB5.0
     ELSE IF    '${dbms_version}' == 'RedDatabase 2.6'
         Check RDB2.6
-        Text Field Should Be Enabled    numberTextFieldformat
-    ELSE IF    '${dbms_version}' == 'RedDatabase 3.0'
+    ELSE IF    '${dbms_version}' == 'RedDatabase 3.0' or '${dbms_version}' == 'RedDatabase 5.0'
         Check Services RDB3.0
-        Text Field Should Be Enabled    numberTextFieldformat
-    ELSE IF    '${dbms_version}' == 'RedDatabase 5.0'
-        Check Services RDB3.0
-        Combo Box Should Be Enabled    comboBoxformat
     END
 
 Check Common Prop
@@ -308,13 +292,10 @@ Check Common Prop
     Check Box Should Be Enabled    checkBoxprint_blr
     Check Box Should Be Enabled    checkBoxlog_dyn_requests
     Check Box Should Be Enabled    checkBoxprint_dyn
-    
-    Text Field Should Be Enabled    pathFieldlog_filename
 
     Text Field Should Be Enabled    textFieldinclude_filter
     Text Field Should Be Enabled    textFieldexclude_filter
 
-    Text Field Should Be Enabled    numberTextFieldmax_log_size
     Text Field Should Be Enabled    numberTextFieldconnection_id
     Text Field Should Be Enabled    numberTextFieldmax_sql_length
     Text Field Should Be Enabled    numberTextFieldmax_blr_length
@@ -368,7 +349,6 @@ Check RDB2.6
 
 Check RDB3.0
     Check FB5.0
-    Check Box Should Be Enabled    checkBoxrotate_log
     Check Box Should Be Enabled    checkBoxcancel_on_error
     Check Box Should Be Enabled    checkBoxlog_changes_only
     Check Box Should Be Enabled    checkBoxlog_security_incidents
@@ -376,8 +356,6 @@ Check RDB3.0
     Check Box Should Be Enabled    checkBoxlog_security_level
     Check Box Should Be Enabled    checkBoxlog_security_type
     Check Box Should Be Enabled    checkBoxreset_counters
-    
-    Text Field Should Be Enabled    pathFieldarchive_directory
 
     Check filters RDB
     
@@ -396,13 +374,8 @@ Check Services Properties
         Check Services FB3.0
     ELSE IF    '${dbms_version}' == 'RedDatabase 2.6'
         Check Services RDB2.6
-        Text Field Should Be Enabled    numberTextFieldformat
-    ELSE IF    '${dbms_version}' == 'RedDatabase 3.0'
+    ELSE IF    '${dbms_version}' == 'RedDatabase 3.0' or '${dbms_version}' == 'RedDatabase 5.0'
         Check Services RDB3.0
-        Text Field Should Be Enabled    numberTextFieldformat
-    ELSE IF    '${dbms_version}' == 'RedDatabase 5.0'
-        Check Services RDB3.0
-        Combo Box Should Be Enabled    comboBoxformat
     END
 
 Check Common Services Prop
@@ -410,13 +383,9 @@ Check Common Services Prop
     Check Box Should Be Enabled    checkBoxenabled
     Check Box Should Be Enabled    checkBoxlog_services
     Check Box Should Be Enabled    checkBoxlog_service_query
-    
-    Text Field Should Be Enabled    pathFieldlog_filename
 
     Text Field Should Be Enabled    textFieldinclude_filter
     Text Field Should Be Enabled    textFieldexclude_filter
-
-    Text Field Should Be Enabled    numberTextFieldmax_log_size
 
 Check Services FB2.5
     Check Common Services Prop
@@ -439,10 +408,7 @@ Check Services RDB3.0
     Check Services RDB2.6
     Check Box Should Be Enabled    checkBoxlog_initfini
     Check Box Should Be Enabled    checkBoxlog_errors
-    Check Box Should Be Enabled    checkBoxrotate_log
     Check Box Should Be Enabled    checkBoxcancel_on_error
 
     Text Field Should Be Enabled    textFieldinclude_gds_codes
     Text Field Should Be Enabled    textFieldexclude_gds_codes
-
-    Text Field Should Be Enabled    pathFieldarchive_directory
