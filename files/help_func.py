@@ -75,7 +75,8 @@ def backup_file(file_name: str):
     home_dir = os.path.expanduser("~")
     build_no = get_build_no()
     file_path = os.path.join(home_dir, f'.redexpert/{build_no}/{file_name}')
-    shutil.copy(file_path, file_path + ".bak")
+    if os.path.exists(file_path):
+        shutil.copy(file_path, file_path + ".bak")
 
 def restore_file(file_name: str):
     home_dir = os.path.expanduser("~")
