@@ -165,7 +165,8 @@ test_load_from_profile
     Select Dialog    Configuration
     Push Button    saveButton
     Select Main Window
-    # Select From Combo Box    profileSelector    NEW_CONFIG
+    Select From Combo Box    profileSelector    default
+    Select From Combo Box    profileSelector    NEW_CONFIG
     Push Button    editConfigButton
 
     Select Dialog    Configuration
@@ -230,9 +231,6 @@ Init Build
     Open connection
     Select From Main Menu    Tools|Trace Manager
     Sleep    5s
-    # Select From Combo Box    profileSelector    default
-    # Push Button    doubleConfigButton
-    # Push Button    7
     Run Keyword In Separate Thread    Select From Combo Box    profileSelector    Create
     Sleep    5s
     Select Dialog    Configuration

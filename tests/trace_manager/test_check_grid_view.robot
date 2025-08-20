@@ -5,6 +5,7 @@ Resource    ../../files/keywords.resource
 Resource    keys.resource
 Test Setup       Setup
 Test Teardown    Teardown
+Test Timeout    300s
 
 *** Test Cases ***
 test_1
@@ -16,9 +17,8 @@ test_1
     Sleep    5s
     Select Tab    Connection
 
-    Select From Combo Box    profileSelector    default
-    Push Button    doubleConfigButton
-    Sleep    2s
+    Run Keyword In Separate Thread    Select From Combo Box    profileSelector    Create
+    Sleep    5s
     Select Dialog    Configuration
     ${info}=    Get Server Info
     ${ver}=     Set Variable    ${info}[1]
@@ -26,12 +26,15 @@ test_1
     Select From Combo Box    0    ${srv_ver} ${ver}
     Check Check Box    checkBoxlog_statement_finish
     Check Check Box    checkBoxprint_perf
+    Insert Into Text Field    numberTextFieldtime_threshold    0
+    Sleep    5s
+
     Type Into Text Field    nameField    NEW_CONFIG
     Push Button    saveButton
     
-    Select Main Window
-    Clear Text Field    numberTextFieldtime_threshold
-    Type Into Text Field    numberTextFieldtime_threshold    0    
+    Select Main Window 
+    Select From Combo Box    profileSelector    default
+    Select From Combo Box    profileSelector    NEW_CONFIG
     Select From Combo Box    databaseBox    New Connection
     Check Check Box    hideShowPropsCheckBox
     
