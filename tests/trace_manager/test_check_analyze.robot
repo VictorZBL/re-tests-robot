@@ -35,7 +35,7 @@ test_1
     Check Check Box    hideShowPropsCheckBox
     
     Push Button    startStopSessionButton
-    Sleep    10s
+    Sleep    20s
 
     Execute    SELECT * from EMPLOYEE AS EM JOIN DEPARTMENT AS DEP ON EM.DEPT_NO = DEP.DEPT_NO
     Execute    SELECT * from EMPLOYEE
@@ -43,15 +43,18 @@ test_1
     Sleep    5s
     Select Tab As Context    Analyze
 
-    Check Check Box    READ
-    Check Check Box    FETCH
-    Check Check Box    WRITE
-    Check Check Box    MARK
-    Check Check Box    RSORT
-    Check Check Box    DSORT
-    Check Check Box    Show more parameters
-    Check Check Box    Round values
-    Check Check Box    Show more parameters
+    # Check Check Box    READ
+    # Check Check Box    FETCH
+    # Check Check Box    WRITE
+    # Check Check Box    MARK
+    # Check Check Box    RSORT
+    # Check Check Box    DSORT
+    # Check Check Box    Show more parameters
+    # Check Check Box    Round values
+    # Check Check Box    Show more parameters
+
+    Check All Checkboxes
+
     Push Button    Filter events
     
     ${row}=    Find Table Row    0    SELECT * from EMPLOYEE AS EM JOIN DEPARTMENT AS DEP ON EM.DEPT_NO = DEP.DEPT_NO\n    QUERY

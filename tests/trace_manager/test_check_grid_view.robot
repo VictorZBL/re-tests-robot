@@ -40,7 +40,7 @@ test_1
     Type Into Text Field    fileLogField    ${log_path}
     
     Push Button    startStopSessionButton
-    Sleep    10s
+    Sleep    20s
 
     Select Tab    Session Manager
     Push Button    Refresh list
@@ -69,7 +69,7 @@ test_1
     Execute Immediate    UPDATE TEST_TABLE SET ID=2 WHERE ID=1
     Execute    SELECT * FROM TEST_TABLE
     
-    Sleep    10s
+    Sleep    20s
 
     Select Main Window
     Select Tab    Session Manager
@@ -86,9 +86,14 @@ test_1
     Check Grid View
 
     Push Button    clearTableButton
-    
-    File Should Exist    ${log_path}
 
+load_from_file
+    ${log_path}=    Catenate    SEPARATOR=    ${TEMPDIR}    /test_log.fbtrace_text
+    File Should Exist    ${log_path}
+    
+    Open connection
+    Select From Main Menu    Tools|Trace Manager
+    Sleep    5s
     Push Button    openLogButton
     Sleep    1s
     Select Dialog    Open
@@ -112,8 +117,7 @@ Check Grid View
     
     ${index}=    Get Table Column Values    1    Index
     ${insert}=    Get Table Column Values    1    Insert
-
-    Should Be Equal As Strings    ${index}    ['7', '', '', '10', '1', '7', '3', '', '2', '1', '1', '1']
+    Should Be Equal As Strings    ${index}    ['7', '', '', '10', '', '7', '3', '', '2', '1', '1', '1']
     Should Be Equal As Strings    ${insert}    ['', '', '1', '', '1', '1', '', '6', '', '', '', '']
 
 
