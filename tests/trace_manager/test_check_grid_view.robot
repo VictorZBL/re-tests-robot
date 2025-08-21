@@ -5,7 +5,7 @@ Resource    ../../files/keywords.resource
 Resource    keys.resource
 Test Setup       Setup
 Test Teardown    Teardown
-Test Timeout    300s
+Test Timeout    200s
 
 *** Test Cases ***
 test_1

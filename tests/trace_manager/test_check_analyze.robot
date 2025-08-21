@@ -4,7 +4,7 @@ Resource    ../../files/keywords.resource
 Resource    keys.resource
 Test Setup       Setup
 Test Teardown    Teardown
-Test Timeout    300s
+Test Timeout    200s
 
 
 *** Test Cases ***
@@ -54,8 +54,10 @@ test_1
     # Check Check Box    Show more parameters
     # Check Check Box    Round values
     # Check Check Box    Show more parameters
-
+    
+    ${old}=    Set Jemmy Timeouts	0.5s
     Run Keyword And Continue On Failure    Check All Checkboxes
+    Set Jemmy Timeouts    ${old}
 
     Push Button    Filter events
     
