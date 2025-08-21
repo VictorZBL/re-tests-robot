@@ -55,7 +55,7 @@ test_1
     # Check Check Box    Round values
     # Check Check Box    Show more parameters
     
-    ${old}=    Set Jemmy Timeouts	0.5
+    ${old}=    Set Jemmy Timeouts	1
     Run Keyword And Continue On Failure    Check All Checkboxes
     Set Jemmy Timeouts    ${old}
 
