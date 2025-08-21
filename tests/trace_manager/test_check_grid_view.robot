@@ -3,7 +3,7 @@ Library    RemoteSwingLibrary
 Library    OperatingSystem
 Resource    ../../files/keywords.resource
 Resource    keys.resource
-Test Setup       Setup
+Test Setup       Setup before every tests
 Test Teardown    Teardown
 Test Timeout    200s
 
@@ -15,6 +15,7 @@ test_1
     Open connection
     Select From Main Menu    Tools|Trace Manager
     Sleep    5s
+    Backup Audit Profiles
     Select Tab    Connection
 
     Run Keyword In Separate Thread    Select From Combo Box    profileSelector    Create     don't verify
@@ -34,8 +35,8 @@ test_1
     
     Select Main Window 
     Click On Component    profileSelector
-    # Select From Combo Box    profileSelector    default    don't verify
-    Run Keyword And Ignore Error    Select From Combo Box    profileSelector    NEW_CONFIG    don't verify
+    Select From Combo Box    profileSelector    default    don't verify
+    Select From Combo Box    profileSelector    NEW_CONFIG    don't verify
     Select From Combo Box    databaseBox    New Connection
     Check Check Box    hideShowPropsCheckBox
     

@@ -2,7 +2,7 @@
 Library    RemoteSwingLibrary
 Resource    ../../files/keywords.resource
 Resource    keys.resource
-Test Setup       Setup
+Test Setup       Setup before every tests
 Test Teardown    Teardown
 Test Timeout    200s
 
@@ -12,6 +12,7 @@ test_1
     Open connection
     Select From Main Menu    Tools|Trace Manager
     Sleep    5s
+    Backup Audit Profiles
     Select Tab    Connection
 
     Select From Combo Box    profileSelector    default
@@ -55,9 +56,9 @@ test_1
     # Check Check Box    Round values
     # Check Check Box    Show more parameters
     
-    ${old}=    Set Jemmy Timeouts	1
+    Set Jemmy Timeouts    1
     Run Keyword And Continue On Failure    Check All Checkboxes
-    Set Jemmy Timeouts    ${old}
+    Set Jemmy Timeouts    5
 
     Push Button    Filter events
     
