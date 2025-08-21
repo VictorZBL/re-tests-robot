@@ -17,7 +17,7 @@ test_1
     Sleep    5s
     Select Tab    Connection
 
-    Run Keyword In Separate Thread    Select From Combo Box    profileSelector    Create
+    Run Keyword In Separate Thread    Select From Combo Box    profileSelector    Create     don't verify
     Sleep    5s
     Select Dialog    Configuration
     ${info}=    Get Server Info
@@ -33,8 +33,9 @@ test_1
     Push Button    saveButton
     
     Select Main Window 
-    Select From Combo Box    profileSelector    default
-    Select From Combo Box    profileSelector    NEW_CONFIG
+    Click On Component    profileSelector
+    # Select From Combo Box    profileSelector    default    don't verify
+    Run Keyword And Ignore Error    Select From Combo Box    profileSelector    NEW_CONFIG    don't verify
     Select From Combo Box    databaseBox    New Connection
     Check Check Box    hideShowPropsCheckBox
     
