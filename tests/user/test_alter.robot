@@ -75,7 +75,7 @@ test_add_new_tags
 
     Select Main Window
     @{values}=    Get Table Values    tagTable
-    Should Be Equal As Strings    ${values}    [['pc', '123]]
+    Should Be Equal As Strings    ${values}    [['PC', '123]]
 
 test_append_tags_to_precreated_user_tags
     Execute Immediate    CREATE USER ${TEST_USERNAME} PASSWORD '${TEST_USER_PASSWORD}' ACTIVE USING PLUGIN Srp TAGS (CARD = '123', PC = '999')
@@ -174,10 +174,8 @@ test_user_ddl_after_modification
     Sleep    1s
     Select Tab As Context    DDL to create
     ${ddl}=    Get Text Field Value    0
-
-    Should Contain    ${ddl}    CREATE USER ${TEST_USERNAME}
-    Should Contain    ${ddl}    TAGS (EXAMPLE_TAG = 'value123')
-    Should Contain    ${ddl}    COMMENT ON USER ${TEST_USERNAME} USING PLUGIN Srp IS 'test_comment'
+    
+    Should Be Equal As Strings    ${ddl}    CREATE USER TEST_USER ACTIVE USING PLUGIN Srp TAGS (EXAMPLE_TAG = 'value123' ); COMMENT ON USER TEST_USER USING PLUGIN Srp IS 'test_comment';    strip_spaces=${True}    collapse_spaces=${True}
 
 *** Keywords ***
 Setup
