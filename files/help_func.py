@@ -51,7 +51,7 @@ def stop_server():
     p = None
 
 def get_build_no():
-    return os.environ.get('BUILD', "202504")
+    return os.environ.get('BUILD', "202506")
 
 def backup_savedconnections_file():
     backup_file("connection-saved.xml")
@@ -65,11 +65,18 @@ def backup_user_properties():
 def restore_user_properties():
     restore_file("user.properties")
 
+def backup_audit_profiles():
+    backup_file("audit.profiles.config")
+
+def restore_audit_profiles():
+    restore_file("audit.profiles.config")
+
 def backup_file(file_name: str):
     home_dir = os.path.expanduser("~")
     build_no = get_build_no()
     file_path = os.path.join(home_dir, f'.redexpert/{build_no}/{file_name}')
-    shutil.copy(file_path, file_path + ".bak")
+    if os.path.exists(file_path):
+        shutil.copy(file_path, file_path + ".bak")
 
 def restore_file(file_name: str):
     home_dir = os.path.expanduser("~")
@@ -199,7 +206,7 @@ def delete_query_files():
 
 def check_build_config(conf_path: str, number: int):
     check_dict = {}   
-    check_dict["format"] = ["0", "0"]
+    check_dict["format"] = ["text", "text"]
     check_dict["enabled"] = ["true", "true"]
     check_dict["log_security_incidents"] = ["true", "false"]
     check_dict["log_initfini"] = ["true", "false"]
@@ -211,11 +218,14 @@ def check_build_config(conf_path: str, number: int):
     check_dict["log_statement_finish"] = ["true", "false"]
     check_dict["log_procedure_start"] = ["true", "false"]
     check_dict["log_procedure_finish"] = ["true", "false"]
+    check_dict["log_procedure_compile"] = ["false", "true"]
     check_dict["log_function_start"] = ["true", "false"]
     check_dict["log_function_finish"] = ["true", "false"]
+    check_dict["log_function_compile"] = ["true", "true"]
     check_dict["log_trigger_start"] = ["true", "false"]
-    check_dict["log_service_query"] = ["true", "false"]
+    check_dict["log_service_query"] = ["false", "false"]
     check_dict["log_trigger_finish"] = ["false", "true"]
+    check_dict["log_trigger_compile"] = ["true", "false"]
     check_dict["log_context"] = ["false", "true"]
     check_dict["log_errors"] = ["false", "true"]
     check_dict["log_warnings"] = ["false", "true"]
@@ -227,7 +237,15 @@ def check_build_config(conf_path: str, number: int):
     check_dict["print_dyn"] = ["false", "true"]
     check_dict["log_privilege_changes"] = ["false", "true"]
     check_dict["log_changes_only"] = ["false", "true"]
-    check_dict["log_services"] = ["false", "true"]
+    check_dict["log_services"] = ["false", "false"]
+    check_dict["reset_counters"] = ["true", "true"]
+    check_dict["print_hostname"] = ["true", "true"]
+    check_dict["cancel_on_error"] = ["true", "true"]
+    check_dict["log_message"] = ["true", "true"]
+    check_dict["print_security_type"] = ["true", "true"]
+    check_dict["explain_plan"] = ["true", "true"]
+    check_dict["print_security_level"] = ["true", "true"]
+    check_dict["log_sweep"] = ["true", "true"]
     check_dict["include_user_filter"] = ["ship", "0"]
     check_dict["exclude_user_filter"] = ["819", "0"]
     check_dict["include_process_filter"] = ["14", "0"]
@@ -235,27 +253,22 @@ def check_build_config(conf_path: str, number: int):
     check_dict["include_filter"] = ["0", "ship"]
     check_dict["exclude_filter"] = ["0", "819"]
     check_dict["connection_id"] = ["0", "14"]
-    check_dict["log_filename"] = ["0", "true"]
-    check_dict["max_log_size"] = ["1024", "0"]
-    check_dict["time_threshold"] = ["2048", "0"]
+    check_dict["max_log_size"] = ["50", "50"]
+    check_dict["time_threshold"] = ["100", "100"]
     check_dict["max_sql_length"] = ["4096", "0"]
     check_dict["max_blr_length"] = ["8192", "0"]
     check_dict["max_dyn_length"] = ["0", "1024"]
     check_dict["max_arg_length"] = ["0", "2048"]
     check_dict["max_arg_count"] = ["0", "4096"]
+    check_dict["exclude_gds_codes"] = ["0", "512"]
+    check_dict["include_gds_codes"] = ["512", "0"]
+
     with open(conf_path, "r") as f:
-        for i in range(3):
-            f.readline()
-        for i in range(38):
-            first, equal, second = list(f.readline().split())
-            assert check_dict[first][number] == second
-            f.readline()
-        for i in range(5):
-            f.readline()
-        for i in range(9):
-            first, equal, second = list(f.readline().split())
-            assert check_dict[first][number] == second
-            f.readline()
+        for line in f:
+            splited_current_line = list(line.split())
+            if len(splited_current_line) == 3:
+                first, equal, second = splited_current_line
+                assert check_dict[first][number] == second
 
 def create_objects():
     import firebird.driver as fdb
