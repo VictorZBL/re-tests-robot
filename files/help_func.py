@@ -8,8 +8,9 @@ import psutil
 import openpyxl
 import threading
 import stat
-from pathlib import Path
+import interbase
 import firebird.driver as fdb
+from pathlib import Path
 from firebird.driver import connect_server, SrvInfoCode   
 
 
@@ -51,7 +52,7 @@ def stop_server():
     p = None
 
 def get_build_no():
-    return os.environ.get('BUILD', "202504")
+    return os.environ.get('BUILD', "202506")
 
 def backup_savedconnections_file():
     backup_file("connection-saved.xml")
@@ -64,6 +65,12 @@ def backup_user_properties():
 
 def restore_user_properties():
     restore_file("user.properties")
+
+def backup_drivers():
+    backup_file("drivers.xml")
+
+def restore_drivers():
+    restore_file("drivers.xml")
 
 def backup_file(file_name: str):
     home_dir = os.path.expanduser("~")
@@ -457,3 +464,41 @@ def get_user_for_ssh():
     user = "reduser" if platform.system() == "Linux" else "jenkins"
     password = "1" if platform.system() == "Linux" else "jenkins"
     return  user, password
+
+def compare_data(path_to_ibdb: str):
+    tmp_dir = tempfile.gettempdir()
+
+    script = "SELECT RDB$RELATION_NAME FROM RDB$RELATIONS WHERE RDB$SYSTEM_FLAG = 0 ORDER BY RDB$RELATION_NAME"
+    con = interbase.connect(dsn=f'localhost/5051:{path_to_ibdb}', user='SYSDBA', password='masterkey', charset='WIN1251')
+    cur = con.cursor()
+    cur.execute(script)
+    list_of_ib_tables = cur.fetchall()
+    print(list_of_ib_tables)
+    cur.close()
+    con.close()
+    
+    con = None
+    
+    for ib_table in list_of_ib_tables:
+        ib_table = ib_table[0].rstrip()
+        if ib_table == 'DATA_POSITIONS_TECH_RE':
+            ib_table += 'QS'
+        if ib_table == 'SUMMARY_DATA_EXTENSION':
+            ib_table += 'S'
+        con = interbase.connect(dsn=f'localhost/5051:{path_to_ibdb}', user='SYSDBA', password='masterkey', charset='WIN1251')
+        cur = con.cursor()
+        data_script = f"select * from {ib_table}"
+        cur.execute(data_script)
+        ib_result_data = cur.fetchall()
+        cur.close()
+        con.close()
+
+        con = None
+
+        with fdb.connect(database=f'localhost/3050:{tmp_dir}/mirgated_db.fdb', user='SYSDBA', password='masterkey', charset='WIN1251') as con:
+            cur = con.cursor()
+            cur.execute(data_script)
+            rdb_result_data = cur.fetchall()
+            cur.close()
+
+        assert ib_result_data.sort() == rdb_result_data.sort()
