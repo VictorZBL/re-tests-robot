@@ -16,7 +16,7 @@ test_single_statement
 *** Keywords ***
 Select Driver
     [Arguments]    ${driver}
-    Select From Tree Node Popup Menu    0    New Connection    Connection information
+    Select From Tree Node Popup Menu    0    New Connection    Connection properties
     Select From Combo Box    driverCombo    ${driver}
 
 Check Tool

@@ -172,7 +172,7 @@ test_add_use_gen_without_identity
     Check Box Should Be Checked    requiredCheck
     Select Tab    Autoincrement
     ${old}=    Set Jemmy Timeouts    100ms
-    Run Keyword And Expect Error    org.netbeans.jemmy.TimeoutExpiredException: Component enabled: class javax.swing.JRadioButton    Push Radio Button    identityRadioo
+    Run Keyword And Expect Error    org.netbeans.jemmy.TimeoutExpiredException: Component enabled: class javax.swing.JRadioButton    Push Radio Button    identityRadio
     Push Radio Button    existingSequenceRadio
     Select From Combo Box    sequencesCombo    EMP_NO_GEN
     Check SQL Statements    ${False}    gen_name=EMP_NO_GEN    dialog=dialog1    alter_table=ALTER TABLE TEST_TABLE ALTER COLUMN COL SET NOT NULL    column_name=COL

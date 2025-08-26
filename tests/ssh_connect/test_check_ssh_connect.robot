@@ -48,22 +48,11 @@ test_database_statistics
     
 test_trace_manager 
     Select From Main Menu    Tools|Trace Manager
-    Sleep    3s
-    ${conf_path}=    Catenate    SEPARATOR=    ${TEMPDIR}    /test_conf.conf
-    Push Button    newConfigButton
-    Select Dialog    Build configuration file
-    Select From Combo Box    0    RedDatabase 3.0
-    Type Into Text Field    15    ${conf_path}
-    Push Button    Save
-    Select Dialog    Message
-    Push Button    OK
-    Close Dialog    Build configuration file
-    Select Main Window
-    Clear Text Field    2
-    Type Into Text Field    2    ${conf_path}
-    Push Button    11
     Sleep    5s
+    Push Button    startStopSessionButton
+    Sleep    10s
     Select Tab    Session Manager
+    Push Button    startStopSessionButton
     Select Main Window
 
 test_user_manager
@@ -80,6 +69,9 @@ test_grant_manager
     Should Be Equal As Strings    ${privileges_for_list}    ${expected_privileges_for_list}
     
 test_profiler
+    ${info}=    Get Server Info
+    ${ver}=     Set Variable    ${info}[1]
+    Skip if   ${{$ver != '5.0'}}
     Select From Main Menu    Tools|Profiler
     Push Button    startButton
     Sleep    2s
@@ -125,7 +117,7 @@ Setup
     Lock Employee
     Setup before every tests
     Select From Tree Node Popup Menu    0    New Connection    Duplicate connection
-    Select From Tree Node Popup Menu    0    New Connection (Copy)    Connection information
+    Select From Tree Node Popup Menu    0    New Connection (Copy)    Connection properties
     Check Check Box    useSshCheck
     Clear Text Field    sshHostField
     Type Into Text Field    sshHostField    localhost

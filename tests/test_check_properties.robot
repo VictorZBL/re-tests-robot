@@ -10,5 +10,5 @@ Test Teardown    Teardown after every tests
 test_1
     Select From Tree Node Popup Menu    0    New Connection    Duplicate connection
     Click On Tree Node    0    New Connection    1
-    Select From Table Cell Popup Menu    0    0    0    Properties    
+    Select From Table Cell Popup Menu    0    0    0    Connection properties    
     Button Should Exist    Connect

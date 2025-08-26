@@ -15,6 +15,6 @@ test_1
     Push Button    startButton
     Select Dialog    Warning
     Label Text Should Be    0    Unable to start profiler session
-    Label Text Should Be    1    DB version below 5.0
+    Label Text Should Be    1    Connection does not support profiler utils.
     Push Button    OK
     

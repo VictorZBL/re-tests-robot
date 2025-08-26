@@ -48,7 +48,7 @@ test_execute_to_file
     ${ser_ver}=    Set Variable    ${info}[2]
     IF    ${{$ver == '2.6'}}
         ${expected_content}=    Catenate    SEPARATOR=\n    COUNTRY\tCURRENCY\t    USA\tDollar\t    England\tPound\t    Canada\tCdnDlr\t    Switzerland\tSFranc\t    Japan\tYen\t    Italy\tLira\t    France\tFFranc\t    Germany\tD-Mark\t    Australia\tADollar\t    Hong Kong\tHKDollar\t    Netherlands\tGuilder\t    Belgium\tBFranc\t    Austria\tSchilling\t    Fiji\tFDollar\t    ${EMPTY}
-    ELSE IF    ${{$ver == '5.0' and $ser_ver == 'Firebird'}}
+    ELSE IF    ${{$ser_ver == 'Firebird'}}
         ${expected_content}=    Catenate    SEPARATOR=\n    COUNTRY\tCURRENCY\t    USA\tDollar\t    England\tPound\t    Canada\tCdnDlr\t    Switzerland\tSFranc\t    Japan\tYen\t    Italy\tEuro\t    France\tEuro\t    Germany\tEuro\t    Australia\tADollar\t    Hong Kong\tHKDollar\t    Netherlands\tEuro\t    Belgium\tEuro\t    Austria\tEuro\t    Fiji\tFDollar\t    Russia\tRuble\t    Romania\tRLeu\t    Ukraine\tHryvnia\t    Czechia\tCzKoruna\t    Brazil\tReal\t    Chile\tChPeso\t    Spain\tEuro\t    Hungary\tForint\t    Sweden\tSKrona\t    Greece\tEuro\t    Slovakia\tEuro\t    Portugal\tEuro\t    ${EMPTY}
     ELSE
         ${expected_content}=    Catenate    SEPARATOR=\n    COUNTRY\tCURRENCY\t    USA\tDollar\t    England\tPound\t    Canada\tCdnDlr\t    Switzerland\tSFranc\t    Japan\tYen\t    Italy\tEuro\t    France\tEuro\t    Germany\tEuro\t    Australia\tADollar\t    Hong Kong\tHKDollar\t    Netherlands\tEuro\t    Belgium\tEuro\t    Austria\tEuro\t    Fiji\tFDollar\t    Russia\tRuble\t    Romania\tRLeu\t    ${EMPTY}
