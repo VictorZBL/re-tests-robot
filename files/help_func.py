@@ -466,6 +466,8 @@ def get_user_for_ssh():
     return  user, password
 
 def compare_data(path_to_ibdb: str):
+    import firebird.driver as fdb
+
     if platform.system() == "Linux":
         interbase.load_api("/opt/interbase/lib/libgds.so")
 
