@@ -468,13 +468,17 @@ def get_user_for_ssh():
 def compare_data(path_to_ibdb: str):
     import firebird.driver as fdb
 
-    if platform.system() == "Linux":
-        interbase.load_api("/opt/interbase/lib/libgds.so")
+    
 
     tmp_dir = tempfile.gettempdir()
 
     script = "SELECT RDB$RELATION_NAME FROM RDB$RELATIONS WHERE RDB$SYSTEM_FLAG = 0 ORDER BY RDB$RELATION_NAME"
-    con = interbase.connect(dsn=f'localhost/5051:{path_to_ibdb}', user='SYSDBA', password='masterkey', charset='WIN1251')
+    if platform.system() == "Linux":
+        # interbase.load_api("/opt/interbase/lib/libgds.so")
+        con = interbase.connect(database=f'{path_to_ibdb}', user='SYSDBA', password='masterkey', charset='WIN1251', ib_library_name="/opt/interbase/lib/libgds.so")
+    else:
+        con = interbase.connect(dsn=f'localhost/5051:{path_to_ibdb}', user='SYSDBA', password='masterkey', charset='WIN1251')
+    
     cur = con.cursor()
     cur.execute(script)
     list_of_ib_tables = cur.fetchall()
@@ -500,7 +504,7 @@ def compare_data(path_to_ibdb: str):
 
         con = None
 
-        with fdb.connect(database=f'localhost/3050:{tmp_dir}/mirgated_db.fdb', user='SYSDBA', password='masterkey', charset='WIN1251') as con:
+        with fdb.connect(f'localhost/3050:{tmp_dir}/mirgated_db.fdb', user='SYSDBA', password='masterkey', charset='WIN1251') as con:
             cur = con.cursor()
             cur.execute(data_script)
             rdb_result_data = cur.fetchall()
