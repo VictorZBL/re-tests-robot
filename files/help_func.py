@@ -466,6 +466,9 @@ def get_user_for_ssh():
     return  user, password
 
 def compare_data(path_to_ibdb: str):
+    if platform.system() == "Linux":
+        interbase.load_api("/opt/interbase/lib/libgds.so")
+
     tmp_dir = tempfile.gettempdir()
 
     script = "SELECT RDB$RELATION_NAME FROM RDB$RELATIONS WHERE RDB$SYSTEM_FLAG = 0 ORDER BY RDB$RELATION_NAME"
