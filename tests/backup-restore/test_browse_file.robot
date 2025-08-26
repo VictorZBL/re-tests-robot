@@ -7,8 +7,7 @@ Test Teardown    Teardown after every tests
 
 *** Test Cases ***
 test_empty_file
-    Select From Main Menu    Database|Database Backup/Restore
-    Clear Text Field     backupFileField
+    Init
 
     Push Button    backupButton
     Select Dialog    Warning
@@ -26,8 +25,7 @@ test_empty_file
 
 test_browse_withot_fbk
     ${bk_path}=    Catenate    SEPARATOR=    ${TEMPDIR}    /employee_backup
-    Select From Main Menu    Database|Database Backup/Restore
-    Clear Text Field     backupFileField
+    Init
     
     Push Button    browseBackupFileButton
     Sleep    2s
@@ -56,8 +54,8 @@ test_browse_withot_fbk
 
 test_not_fbk
     ${bk_path}=    Catenate    SEPARATOR=    ${TEMPDIR}    /employee_backup.fb
-    Select From Main Menu    Database|Database Backup/Restore
-    Clear Text Field     backupFileField
+    Init
+    
     Type Into Text Field    backupFileField    ${bk_path}
     Push Button    backupButton
     Select Dialog    Warning
@@ -73,3 +71,9 @@ test_not_fbk
     Select Dialog    Warning
     Label Text Should Be    0    The file must have the .fbk extension
     Push Button    OK
+
+*** Keywords ***
+Init
+    Open connection
+    Select From Main Menu    Database|Database Backup/Restore
+    Clear Text Field     backupFileField

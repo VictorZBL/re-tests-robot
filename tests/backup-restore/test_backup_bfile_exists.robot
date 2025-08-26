@@ -30,6 +30,7 @@ test_2
 Init
     ${bk_path}=    Catenate    SEPARATOR=    ${TEMPDIR}    /employee_backup.fbk
     Remove File    ${bk_path}
+    Open connection
     Select From Main Menu    Database|Database Backup/Restore
     Uncheck All Checkboxes
     Clear Text Field     backupFileField

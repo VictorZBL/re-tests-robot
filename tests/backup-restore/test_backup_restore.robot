@@ -10,6 +10,7 @@ test_full_check
     ${log_path}=    Catenate    SEPARATOR=    ${TEMPDIR}    /test_log.txt
     ${bk_path}=    Catenate    SEPARATOR=    ${TEMPDIR}    /employee_backup.fbk
     Remove Files   ${log_path}    ${bk_path}
+    Open connection
     Select From Main Menu    Database|Database Backup/Restore
     
     Check All Checkboxes

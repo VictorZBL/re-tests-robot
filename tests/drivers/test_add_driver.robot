@@ -26,7 +26,7 @@ test_check_combo
     Select Dialog    Add New Driver
     Type Into Text Field    descField    This is Description
     ${dbvalues}=    Get Combobox Values    databaseNameCombo
-    Should Be Equal As Strings    ${dbvalues}    ['Red Database', 'Firebird', 'Other']
+    Should Be Equal As Strings    ${dbvalues}    ['Red Database', 'Firebird', 'InterBase', 'Other']
     
     Select From Combo Box    databaseNameCombo    Other
     ${urlsvalues}=    Get Combobox Values    driverUrlCombo

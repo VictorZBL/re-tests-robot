@@ -10,6 +10,7 @@ test_1
     ${bk_path}=    Catenate    SEPARATOR=    ${TEMPDIR}    /employee_backup.fbk
     ${log_path}=    Catenate    SEPARATOR=    ${EMPTY}    log_file.log
     Remove Files    ${bk_path}    ${log_path}
+    Open connection
     Select From Main Menu    Database|Database Backup/Restore
     Clear Text Field     backupFileField
     Type Into Text Field    backupFileField    ${bk_path}
