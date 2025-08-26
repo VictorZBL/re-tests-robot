@@ -480,14 +480,13 @@ def get_user_for_ssh():
 def compare_data(path_to_ibdb: str):
     import firebird.driver as fdb
     list_of_ib_tables= []
+    script = "SELECT RDB$RELATION_NAME FROM RDB$RELATIONS WHERE RDB$SYSTEM_FLAG = 0 ORDER BY RDB$RELATION_NAME"
     if platform.system() == "Linux":
         import jaydebeapi
         
         DIST = os.environ.get('DIST', "C:\\Program Files\\RedExpert")
         os.environ["JAVA_HOME"] = f"{DIST}/java"
 
-        script = "SELECT RDB$RELATION_NAME FROM RDB$RELATIONS WHERE RDB$SYSTEM_FLAG = 0 ORDER BY RDB$RELATION_NAME"
-        
         jdbc_driver = '/opt/interbase/lib/interclient.jar' if platform.system() == "Linux" else 'C:\\Program Files\\Embarcadero\\InterBase\\SDK\\lib\\interclient.jar'
         jdbc_url = f'jdbc:interbase://localhost:5051/{path_to_ibdb}'
         jdbc_user = 'SYSDBA'  
