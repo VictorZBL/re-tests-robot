@@ -8,7 +8,7 @@ import psutil
 import openpyxl
 import threading
 import stat
-import interbase
+import jaydebeapi
 import firebird.driver as fdb
 from pathlib import Path
 from firebird.driver import connect_server, SrvInfoCode   
@@ -480,34 +480,33 @@ def get_user_for_ssh():
 
 def compare_data(path_to_ibdb: str):
     import firebird.driver as fdb
-
-    
+    DIST = os.environ.get('DIST', "C:\\Program Files\\RedExpert")
+    os.environ["JAVA_HOME"] = f"{DIST}/java"
 
     tmp_dir = tempfile.gettempdir()
 
     script = "SELECT RDB$RELATION_NAME FROM RDB$RELATIONS WHERE RDB$SYSTEM_FLAG = 0 ORDER BY RDB$RELATION_NAME"
-    if platform.system() == "Linux":
-        # interbase.load_api("/opt/interbase/lib/libgds.so")
-        con = interbase.connect(database=f'{path_to_ibdb}', user='SYSDBA', password='masterkey', charset='WIN1251', ib_library_name="/opt/interbase/lib/libgds.so")
-    else:
-        con = interbase.connect(dsn=f'localhost/5051:{path_to_ibdb}', user='SYSDBA', password='masterkey', charset='WIN1251')
     
-    cur = con.cursor()
-    cur.execute(script)
+    jdbc_driver = '/opt/interbase/lib/interclient.jar' if platform.system() == "Linux" else 'C:\\Program Files\\Embarcadero\\InterBase\\SDK\\lib\\interclient.jar'
+    jdbc_url = f'jdbc:interbase://localhost:5051/{path_to_ibdb}'
+    jdbc_user = 'SYSDBA'  
+    jdbc_password = 'masterkey'
+
+    con = jaydebeapi.connect(jclassname='interbase.interclient.Driver', url=jdbc_url, driver_args=[jdbc_user, jdbc_password], jars=[jdbc_driver])  
+    cur = con.cursor()  
+    cur.execute(script)  
     list_of_ib_tables = cur.fetchall()
-    print(list_of_ib_tables)
     cur.close()
     con.close()
     
     con = None
-    
+
     for ib_table in list_of_ib_tables:
         ib_table = ib_table[0].rstrip()
-        if ib_table == 'DATA_POSITIONS_TECH_RE':
-            ib_table += 'QS'
-        if ib_table == 'SUMMARY_DATA_EXTENSION':
-            ib_table += 'S'
-        con = interbase.connect(dsn=f'localhost/5051:{path_to_ibdb}', user='SYSDBA', password='masterkey', charset='WIN1251')
+        if ib_table == 'JOB' or ib_table == 'PROJ_DEPT_BUDGET':
+            continue # because JDBC not supported get data from this tables
+        
+        con = jaydebeapi.connect(jclassname='interbase.interclient.Driver', url=jdbc_url, driver_args=[jdbc_user, jdbc_password], jars=[jdbc_driver])
         cur = con.cursor()
         data_script = f"select * from {ib_table}"
         cur.execute(data_script)
