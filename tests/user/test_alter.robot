@@ -75,7 +75,7 @@ test_add_new_tags
 
     Select Main Window
     @{values}=    Get Table Values    tagTable
-    Should Be Equal As Strings    ${values}    [['PC', '123]]
+    Should Be Equal As Strings    ${values}    [['PC', '123']]
 
 test_append_tags_to_precreated_user_tags
     Execute Immediate    CREATE USER ${TEST_USERNAME} PASSWORD '${TEST_USER_PASSWORD}' ACTIVE USING PLUGIN Srp TAGS (CARD = '123', PC = '999')
