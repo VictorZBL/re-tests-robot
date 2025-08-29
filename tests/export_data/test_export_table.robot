@@ -27,7 +27,7 @@ test_1
     ${ser_ver}=    Set Variable    ${info}[2]
     IF    ${{$ver == '2.6'}}
         ${expected_content}=    Catenate    SEPARATOR=\n    USA;Dollar    England;Pound    Canada;CdnDlr    Switzerland;SFranc    Japan;Yen    Italy;Lira    France;FFranc    Germany;D-Mark    Australia;ADollar    Hong Kong;HKDollar    Netherlands;Guilder    Belgium;BFranc    Austria;Schilling    Fiji;FDollar    ${EMPTY}
-    ELSE IF    ${{$ser_ver == 'Firebird'}}
+    ELSE IF    ${{$ser_ver == 'Firebird' or ($ser_ver == 'RedDatabase' and $ver == '3.0')}}
         ${expected_content}=    Catenate    SEPARATOR=\n    USA;Dollar    England;Pound    Canada;CdnDlr    Switzerland;SFranc    Japan;Yen    Italy;Euro    France;Euro    Germany;Euro    Australia;ADollar    Hong Kong;HKDollar    Netherlands;Euro    Belgium;Euro    Austria;Euro    Fiji;FDollar    Russia;Ruble    Romania;RLeu    Ukraine;Hryvnia    Czechia;CzKoruna    Brazil;Real    Chile;ChPeso    Spain;Euro    Hungary;Forint    Sweden;SKrona    Greece;Euro    Slovakia;Euro    Portugal;Euro    ${EMPTY}
     ELSE
         ${expected_content}=    Catenate    SEPARATOR=\n    USA;Dollar    England;Pound    Canada;CdnDlr    Switzerland;SFranc    Japan;Yen    Italy;Euro    France;Euro    Germany;Euro    Australia;ADollar    Hong Kong;HKDollar    Netherlands;Euro    Belgium;Euro    Austria;Euro    Fiji;FDollar    Russia;Ruble    Romania;RLeu    ${EMPTY}
