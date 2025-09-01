@@ -65,11 +65,11 @@ test_1
     ${row}=    Find Table Row    0    SELECT * from EMPLOYEE AS EM JOIN DEPARTMENT AS DEP ON EM.DEPT_NO = DEP.DEPT_NO\n    QUERY
     Click On Table Cell    0    ${row}    QUERY
     ${plan}=    Get Text Field Value    6
-    IF    $ver != '2.6'
+    IF    $ver == '2.6'
         VAR    ${expected_plan}    PLAN JOIN (DEP NATURAL, EM INDEX (RDB$FOREIGN8))
-    ELSE IF    $ver != '3.0'
+    ELSE IF    $ver == '3.0'
         VAR    ${expected_plan}    Select Expression -> Nested Loop Join (inner) -> Table "DEPARTMENT" as "DEP" Full Scan -> Filter -> Table "EMPLOYEE" as "EM" Access By ID -> Bitmap -> Index "RDB$FOREIGN8" Range Scan (full match)
-    ELSE IF    $ver != '5.0'
+    ELSE IF    $ver == '5.0'
         VAR    ${expected_plan}    Select Expression -> Filter -> Hash Join (inner) -> Table "EMPLOYEE" as "EM" Full Scan -> Record Buffer (record length: 105) -> Table "DEPARTMENT" as "DEP" Full Scan 
     END
     Should Be Equal As Strings    ${plan}    ${expected_plan}    strip_spaces=${True}    collapse_spaces=${True}
