@@ -87,9 +87,15 @@ test_export_in_existing_folder
 
 *** Keywords ***
 Init
+    ${info}=    Get Server Info
+    ${ver}=     Set Variable    ${info}[1]
+    IF   ${{$ver == '2.6'}}
+        Lock Employee
+        Set blobs
+    END
     Open connection
     Clear Text Field    0
-    Type Into Text Field    0    select * from PROJECT
+    Insert Into Text Field    0    select * from PROJECT
     Push Button    execute-script-command
     Sleep    1s
     Select Table Cell Area    0    1    2    0    2    

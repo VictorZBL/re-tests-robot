@@ -1,7 +1,8 @@
 *** Settings ***
 Library    RemoteSwingLibrary
 Resource    ../../files/keywords.resource
-Test Setup       Setup before every tests
+Resource    keys.resource
+Test Setup       Setup
 Test Teardown    Teardown after every tests
 
 *** Test Cases ***
@@ -54,7 +55,7 @@ Init
 
 Check
     [Arguments]    ${create_header}    ${create_body}    ${name}
-    Select Dialog    dialog1
+    Select Dialog    Commiting changes
     Sleep    1s
     
     ${row_header}=     Find Table Row    0    CREATE OR ALTER PACKAGE
@@ -86,7 +87,7 @@ Check
 
 
 Check error
-    Select Dialog    dialog1
+    Select Dialog    Commiting changes
     Sleep    1s
     ${value}=    Get Table Cell Value    0    0    Status
     Should Be Equal As Strings    ${value}    Error

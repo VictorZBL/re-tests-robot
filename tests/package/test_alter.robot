@@ -1,7 +1,8 @@
 *** Settings ***
 Library    RemoteSwingLibrary
 Resource    ../../files/keywords.resource
-Test Setup       Setup before every tests
+Resource    keys.resource
+Test Setup       Setup
 Test Teardown    Teardown after every tests
 
 *** Test Cases ***
@@ -63,7 +64,8 @@ test_4
     @{tree2}=    Get Tree Node Child Names    1    New Connection
     ${info}=    Get Server Info
     ${ver}=     Set Variable    ${info}[1]
-    IF  ${{$ver == '5.0'}}
+    ${srv_ver}=    Set Variable    ${info}[2]
+    IF  ${{$ver == '5.0' and $srv_ver == 'RedDatabase'}}
         Should Be Equal As Strings    ${tree1}    ['Domains (0)', 'Tables (0)', 'Global Temporary Tables (0)', 'Views (0)', 'Procedures (0)', 'Functions (0)', 'Packages (0)', 'Table Triggers (0)', 'DDL Triggers (0)', 'DB Triggers (0)', 'Sequences (0)', 'Exceptions (0)', 'UDFs (0)', 'Users (0)', 'Roles (0)', 'Indices (0)', 'Tablespaces (0)', 'Jobs (0)']
         Should Be Equal As Strings    ${tree2}    ['Domains (0)', 'Tables (0)', 'Global Temporary Tables (0)', 'Views (0)', 'Procedures (0)', 'Functions (0)', 'Packages (0)', 'Table Triggers (0)', 'DDL Triggers (0)', 'DB Triggers (0)', 'Sequences (0)', 'Exceptions (0)', 'UDFs (0)', 'Users (0)', 'Roles (0)', 'Indices (0)', 'Tablespaces (0)', 'Jobs (0)']
     ELSE
@@ -75,7 +77,7 @@ test_5
     Init    """NEW PACK"""    "NEW PACK"    Body
     Select Tab As Context    DDL to create
     ${res}=    Get Text Field Value    0
-    Should Be Equal As Strings    ${res}    SET TERM ^ ; CREATE OR ALTER PACKAGE """NEW PACK""" AS BEGIN END^ RECREATE PACKAGE BODY """NEW PACK""" AS BEGIN END^ SET TERM ; ^    strip_spaces=${True}    collapse_spaces=${True}
+    Should Be Equal As Strings    ${res}    CREATE OR ALTER PACKAGE """NEW PACK""" AS BEGIN END; RECREATE PACKAGE BODY """NEW PACK""" AS BEGIN END;    strip_spaces=${True}    collapse_spaces=${True}
 
 *** Keywords ***
 Init
@@ -94,7 +96,7 @@ Init
 Check
     [Arguments]    ${create_header}    ${create_body}
     Push Button    submitButton
-    Select Dialog    Edit package    
+    Select Dialog    Commiting changes    
     ${row_header}=     Find Table Row    0    CREATE OR ALTER PACKAGE
     ${value}=    Get Table Cell Value    0    ${row_header}    Status
     Should Be Equal As Strings    ${value}    Success
@@ -117,4 +119,4 @@ Check
     Push Button    commitButton
     Sleep    0.1s
     ${old}=    Set Jemmy Timeout    DialogWaiter.WaitDialogTimeout	0
-    Run Keyword And Expect Error    org.netbeans.jemmy.TimeoutExpiredException: Dialog with name or title 'Edit package'    Select Dialog    Edit package
+    Run Keyword And Expect Error    org.netbeans.jemmy.TimeoutExpiredException: Dialog with name or title 'Commiting changes'    Select Dialog    Commiting changes

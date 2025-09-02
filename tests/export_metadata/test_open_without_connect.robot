@@ -2,7 +2,7 @@
 Library    RemoteSwingLibrary
 Resource   ../../files/keywords.resource 
 Test Setup       Local Setup
-Test Teardown    Local Teardown
+Test Teardown    Teardown after every tests
 
 *** Test Cases ***
 test_extract
@@ -21,14 +21,12 @@ test_compare
     Push Button    compareButton
     Select Dialog    Warning
     Run Keyword And Continue On Failure    Label Text Should Be    0    Unable to compare.
-    Run Keyword And Continue On Failure    Label Text Should Be    1    The same connections selected.
-
+    Run Keyword And Continue On Failure    Label Text Should Be    1    At least one of the connections is inactive.
 
 *** Keywords ***
-Local Teardown
-    Teardown after every tests
-    Restore Savedconnections File
-
 Local Setup
-    Backup Savedconnections File
     Setup before every tests
+    Select From Tree Node Popup Menu In Separate Thread    0    New Connection    Delete connection
+    Select Dialog    Delete connection
+    Push Button    Yes
+    Select Main Window

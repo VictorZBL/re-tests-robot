@@ -4,7 +4,7 @@ Library    Process
 Library    Collections
 Resource   ../../files/keywords.resource 
 Test Setup       Setup before every tests
-Test Teardown    Teardown after every tests
+Test Teardown    Teardown
 
 *** Test Cases ***
 test_1
@@ -17,5 +17,9 @@ test_1
     Push Button    refreshButton
     Sleep    2s
     ${rowCount}=    Get Table Row Count    usersTable
-    Execute Immediate    DROP USER TEST_REFRESH_USER
     Should Be Equal As Integers    2    ${rowCount}
+
+*** Keywords ***
+Teardown
+    Teardown after every tests
+    Run Keyword And Ignore Error    Execute Immediate    DROP USER TEST_REFRESH_USER

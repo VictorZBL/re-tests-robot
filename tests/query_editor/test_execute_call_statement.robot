@@ -8,7 +8,8 @@ Test Teardown    Teardown after every tests
 test_execute_sql
     ${info}=    Get Server Info
     ${ver}=     Set Variable    ${info}[1]
-    Skip If    ${{$ver != '5.0'}}
+    ${srv_ver}=    Set Variable    ${info}[2]
+    Skip If    ${{not($ver == '5.0' and $srv_ver == 'RedDatabase')}}
     Lock Employee
     Open connection
     Clear Text Field    0

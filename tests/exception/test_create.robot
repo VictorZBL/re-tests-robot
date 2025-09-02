@@ -19,7 +19,7 @@ test_3
 
 test_4
     Init    ${EMPTY}    test text
-    Select Dialog    dialog1
+    Select Dialog    Commiting changes
     Sleep    1s
     ${value}=    Get Table Cell Value    0    0    Status
     Should Be Equal As Strings    ${value}    Error
@@ -50,7 +50,7 @@ Init
 
 Check
     [Arguments]    ${text}    ${name}
-    Select Dialog    dialog1
+    Select Dialog    Commiting changes
     Sleep    1s
     ${res}=    Get Text Field Value    0
     Should Be Equal As Strings    ${res}    ${text}

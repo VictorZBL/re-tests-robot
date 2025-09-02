@@ -38,12 +38,14 @@ test_alter_procedure_cursor
     Check Proc Tab Comment     Procedures (11)|NEW_PROC    Cursors    test
 
 test_alter_function
+    Check Skip 2.6
     Lock Employee
     Execute Immediate    CREATE OR ALTER FUNCTION NEW_FUNC RETURNS VARCHAR(5) AS begin RETURN 'five'; end
     Init Alter    Functions (1)|NEW_FUNC
     Check Comment
 
 test_alter_package
+    Check Skip 2.6
     Lock Employee
     Execute Immediate    CREATE OR ALTER PACKAGE NEW_PACK AS BEGIN END
     Execute Immediate    RECREATE PACKAGE BODY NEW_PACK AS BEGIN END
@@ -55,6 +57,7 @@ test_alter_trigger_for_table
     Check Comment
 
 test_alter_trigger_for_ddl
+    Check Skip 2.6
     Lock Employee
     Execute Immediate    CREATE OR ALTER TRIGGER NEW_TRIGGER ACTIVE BEFORE ANY DDL STATEMENT POSITION 0 AS BEGIN END
     Init Alter    DDL Triggers (1)|NEW_TRIGGER
@@ -81,6 +84,7 @@ test_alter_udf
     Check Comment
 
 test_alter_user
+    Check Skip 2.6
     Init Alter    Users (1)|SYSDBA
     Check Comment
 
@@ -92,10 +96,10 @@ test_alter_role
 
 test_alter_ts
     Check Skip
-    Execute Immediate    CREATE TABLESPACE NEW_TS FILE 'test1.ts'
+    Lock Employee
+    Execute Immediate    CREATE TABLESPACE NEW_TS FILE 'test_alter.ts'
     Init Alter    Tablespaces (1)|NEW_TS
     Check Comment
-    Execute Immediate    DROP TABLESPACE NEW_TS
 
 test_alter_job
     Check Skip
@@ -108,7 +112,13 @@ test_alter_job
 Check Skip
     ${info}=    Get Server Info
     ${ver}=     Set Variable    ${info}[1]
-    Skip If    ${{$ver != '5.0'}}
+    ${srv_ver}=    Set Variable    ${info}[2]
+    Skip If    ${{not($ver == '5.0' and $srv_ver == 'RedDatabase')}}
+
+Check Skip 2.6
+    ${info}=    Get Server Info
+    ${ver}=     Set Variable    ${info}[1]
+    Skip If    ${{$ver == '2.6'}}
 
 Init Alter
     [Arguments]    ${object}

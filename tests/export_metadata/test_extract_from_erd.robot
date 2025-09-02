@@ -6,44 +6,36 @@ Test Teardown    Teardown after every tests
 
 *** Test Cases ***
 test_ignore
-    Open connection
-    Select From Main Menu    Tools|ER-diagram editor
-    Push Button    updateFromDatabase
-    Select Dialog    Generate ERD
-    Push Button    selectAllButton
-    Push Button    Generate
-    Sleep    2s
-    Select Main Window
-    Push Button    generateScriptsButton
-    Push Button    selectAllExtractPropertiesButton
-    Push Button    extractButton
-    Sleep    5s
-    Close Dialog    Message
-    Select Tab As Context    SQL
-    ${script}=    Get Text Field Value    0
-    @{result}=    Check Ignore    ${script}
-    Should Be Equal As Strings    ${result}    [1, 0, 0, 0, 0]
+    Action    [10, 0, 0, 0, 0, 0]
     
 test_not_ignore
-    Open connection
-    Select From Main Menu    Tools|ER-diagram editor
-    Push Button    updateFromDatabase
-    Select Dialog    Generate ERD
-    Push Button    selectAllButton
-    Push Button    Generate
-    Sleep    2s
-    Select Main Window
-    Push Button    generateScriptsButton
-    Push Button    extractButton
-    Sleep    5s
-    Close Dialog    Message
-    Select Tab As Context    SQL
-    ${script}=    Get Text Field Value    0
-    @{result}=    Check Ignore    ${script}
-    Should Be Equal As Strings    ${result}    [1, 1, 1, 1, 1]
+    Action    [10, 1, 3, 10, 14, 2]
 
 *** Keywords ***
 Check Ignore
     [Arguments]    ${script}
-    @{result}    Create List    ${{$script.count("Creating Tables")}}    ${{$script.count("COMPUTED FIELDs defining")}}    ${{$script.count("PRIMARY KEYs defining")}}    ${{$script.count("FOREIGN KEYs defining")}}    ${{$script.count("UNIQUE KEYs defining")}}
+    @{result}    Create List    ${{$script.count("CREATE TABLE")}}    ${{$script.count("COMMENT ON")}}    ${{$script.count("COMPUTED BY")}}    ${{$script.count("PRIMARY KEY")}}    ${{$script.count("FOREIGN KEY")}}    ${{$script.count("UNIQUE")}}
     RETURN    @{result}
+
+Action
+    [Arguments]    ${expected_result}
+    Execute Immediate    COMMENT ON TABLE EMPLOYEE IS 'comment'
+    Open connection
+    Select From Main Menu    Tools|ER-diagram editor
+    Push Button    updateFromDatabase
+    Select Dialog    Generate ERD
+    Push Button    selectAllButton
+    Push Button    Generate
+    Sleep    2s
+    Select Main Window
+    Push Button    generateScriptsButton
+    IF    '${TEST_NAME}' == 'test_ignore'
+        Push Button    selectAllExtractPropertiesButton
+    END   
+    Push Button    extractButton
+    Sleep    5s
+    Close Dialog    Message
+    Select Tab As Context    SQL
+    ${script}=    Get Text Field Value    0
+    @{result}=    Check Ignore    ${script}
+    Should Be Equal As Strings    ${result}    ${expected_result}

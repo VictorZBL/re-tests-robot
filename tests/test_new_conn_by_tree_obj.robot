@@ -20,9 +20,15 @@ test_2
 *** Keywords ***
 Create New Conn
     Push Button    new-connection-command
-    Type Into Text Field    3    employee.fdb
-    List Components In Context
-    Type Into Text Field    5    sysdba
-    Type Into Text Field    6    masterkey
+    Sleep    1s
+    ${info}=    Get Server Info
+    ${ver}=     Set Variable    ${info}[1]
+    IF    ${{$ver == '2.6'}}
+        Select From Combo Box    serverCombo    Red Database (Firebird) 2.X
+        Select From Combo Box    authCombo    Basic
+    END
+    Type Into Text Field    fileField    employee.fdb
+    Type Into Text Field    userField    sysdba
+    Type Into Text Field    passwordField    masterkey
     Check Check Box    Store Password
     Push Button    saveButton

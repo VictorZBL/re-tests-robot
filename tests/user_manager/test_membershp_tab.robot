@@ -4,8 +4,7 @@ Library    Process
 Library    Collections
 Resource   ../../files/keywords.resource 
 Test Setup       Setup before every tests
-Test Teardown    Teardown after every tests
-
+Test Teardown    Teardown
 *** Test Cases ***
 test_check_membership_role_to_user
     Action    USER    0
@@ -53,3 +52,7 @@ Action
 Check membership
     ${result}=    Execute    select CAST(rdb$user as VARCHAR(16)), CAST(rdb$privilege as VARCHAR(1)), rdb$grant_option, CAST(rdb$relation_name as VARCHAR(10)) from RDB$USER_PRIVILEGES where rdb$user='ATEST_MEMBERSHIP'
     RETURN     ${result}
+
+Teardown
+    Teardown after every tests
+    Run Keyword And Ignore Error    Execute Immediate    DROP USER ATEST_MEMBERSHIP

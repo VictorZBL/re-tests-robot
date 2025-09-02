@@ -56,7 +56,7 @@ test_open_query_editor_no
 test_open_empty_query_editor
     Open connection
     Clear Text Field    0
-    Type Into Text Field    0    SELECT * FROM EMPLOYEE
+    Insert Into Text Field    0    SELECT * FROM EMPLOYEE
     Push Button    execute-script-command
     Sleep    1s
     Clear Text Field    0
@@ -87,7 +87,7 @@ test_add_create_table_statement
 test_execute_to_file
     Open connection
     Clear Text Field    0
-    Type Into Text Field    0    SELECT * FROM COUNTRY
+    Insert Into Text Field    0    SELECT * FROM COUNTRY
     Push Button    editor-execute-to-file-command
     Push Button    execute-script-command
     Sleep    1s  
@@ -96,7 +96,18 @@ test_execute_to_file
     Check Check Box    addCreateTableStatementCheck
     Clear Text Field    exportTableNameField
     Type Into Text Field    exportTableNameField    TEST_TABLE
-    VAR    ${expected_content}    -- table creating -- CREATE TABLE TEST_TABLE ( COUNTRY VARCHAR(15), CURRENCY VARCHAR(10) ); -- inserting data -- INSERT INTO TEST_TABLE ( COUNTRY, CURRENCY ) VALUES ( 'USA', 'Dollar' ); INSERT INTO TEST_TABLE ( COUNTRY, CURRENCY ) VALUES ( 'England', 'Pound' ); INSERT INTO TEST_TABLE ( COUNTRY, CURRENCY ) VALUES ( 'Canada', 'CdnDlr' ); INSERT INTO TEST_TABLE ( COUNTRY, CURRENCY ) VALUES ( 'Switzerland', 'SFranc' ); INSERT INTO TEST_TABLE ( COUNTRY, CURRENCY ) VALUES ( 'Japan', 'Yen' ); INSERT INTO TEST_TABLE ( COUNTRY, CURRENCY ) VALUES ( 'Italy', 'Euro' ); INSERT INTO TEST_TABLE ( COUNTRY, CURRENCY ) VALUES ( 'France', 'Euro' ); INSERT INTO TEST_TABLE ( COUNTRY, CURRENCY ) VALUES ( 'Germany', 'Euro' ); INSERT INTO TEST_TABLE ( COUNTRY, CURRENCY ) VALUES ( 'Australia', 'ADollar' ); INSERT INTO TEST_TABLE ( COUNTRY, CURRENCY ) VALUES ( 'Hong Kong', 'HKDollar' ); INSERT INTO TEST_TABLE ( COUNTRY, CURRENCY ) VALUES ( 'Netherlands', 'Euro' ); INSERT INTO TEST_TABLE ( COUNTRY, CURRENCY ) VALUES ( 'Belgium', 'Euro' ); INSERT INTO TEST_TABLE ( COUNTRY, CURRENCY ) VALUES ( 'Austria', 'Euro' ); INSERT INTO TEST_TABLE ( COUNTRY, CURRENCY ) VALUES ( 'Fiji', 'FDollar' ); INSERT INTO TEST_TABLE ( COUNTRY, CURRENCY ) VALUES ( 'Russia', 'Ruble' ); INSERT INTO TEST_TABLE ( COUNTRY, CURRENCY ) VALUES ( 'Romania', 'RLeu' );
+    
+     ${info}=    Get Server Info
+    ${ver}=     Set Variable    ${info}[1]
+    ${ser_ver}=    Set Variable    ${info}[2]
+    IF    ${{$ver == '2.6'}}
+        VAR    ${expected_content}    -- table creating -- CREATE TABLE TEST_TABLE ( COUNTRY VARCHAR(15), CURRENCY VARCHAR(10) ); -- inserting data -- INSERT INTO TEST_TABLE ( COUNTRY, CURRENCY ) VALUES ( 'USA', 'Dollar' ); INSERT INTO TEST_TABLE ( COUNTRY, CURRENCY ) VALUES ( 'England', 'Pound' ); INSERT INTO TEST_TABLE ( COUNTRY, CURRENCY ) VALUES ( 'Canada', 'CdnDlr' ); INSERT INTO TEST_TABLE ( COUNTRY, CURRENCY ) VALUES ( 'Switzerland', 'SFranc' ); INSERT INTO TEST_TABLE ( COUNTRY, CURRENCY ) VALUES ( 'Japan', 'Yen' ); INSERT INTO TEST_TABLE ( COUNTRY, CURRENCY ) VALUES ( 'Italy', 'Lira' ); INSERT INTO TEST_TABLE ( COUNTRY, CURRENCY ) VALUES ( 'France', 'FFranc' ); INSERT INTO TEST_TABLE ( COUNTRY, CURRENCY ) VALUES ( 'Germany', 'D-Mark' ); INSERT INTO TEST_TABLE ( COUNTRY, CURRENCY ) VALUES ( 'Australia', 'ADollar' ); INSERT INTO TEST_TABLE ( COUNTRY, CURRENCY ) VALUES ( 'Hong Kong', 'HKDollar' ); INSERT INTO TEST_TABLE ( COUNTRY, CURRENCY ) VALUES ( 'Netherlands', 'Guilder' ); INSERT INTO TEST_TABLE ( COUNTRY, CURRENCY ) VALUES ( 'Belgium', 'BFranc' ); INSERT INTO TEST_TABLE ( COUNTRY, CURRENCY ) VALUES ( 'Austria', 'Schilling' ); INSERT INTO TEST_TABLE ( COUNTRY, CURRENCY ) VALUES ( 'Fiji', 'FDollar' );
+    ELSE IF    ${{$ser_ver == 'Firebird' or ($ser_ver == 'RedDatabase' and $ver == '3.0')}}
+        VAR    ${expected_content}    	-- table creating -- CREATE TABLE TEST_TABLE ( COUNTRY VARCHAR(15), CURRENCY VARCHAR(10) ); -- inserting data -- INSERT INTO TEST_TABLE ( COUNTRY, CURRENCY ) VALUES ( 'USA', 'Dollar' ); INSERT INTO TEST_TABLE ( COUNTRY, CURRENCY ) VALUES ( 'England', 'Pound' ); INSERT INTO TEST_TABLE ( COUNTRY, CURRENCY ) VALUES ( 'Canada', 'CdnDlr' ); INSERT INTO TEST_TABLE ( COUNTRY, CURRENCY ) VALUES ( 'Switzerland', 'SFranc' ); INSERT INTO TEST_TABLE ( COUNTRY, CURRENCY ) VALUES ( 'Japan', 'Yen' ); INSERT INTO TEST_TABLE ( COUNTRY, CURRENCY ) VALUES ( 'Italy', 'Euro' ); INSERT INTO TEST_TABLE ( COUNTRY, CURRENCY ) VALUES ( 'France', 'Euro' ); INSERT INTO TEST_TABLE ( COUNTRY, CURRENCY ) VALUES ( 'Germany', 'Euro' ); INSERT INTO TEST_TABLE ( COUNTRY, CURRENCY ) VALUES ( 'Australia', 'ADollar' ); INSERT INTO TEST_TABLE ( COUNTRY, CURRENCY ) VALUES ( 'Hong Kong', 'HKDollar' ); INSERT INTO TEST_TABLE ( COUNTRY, CURRENCY ) VALUES ( 'Netherlands', 'Euro' ); INSERT INTO TEST_TABLE ( COUNTRY, CURRENCY ) VALUES ( 'Belgium', 'Euro' ); INSERT INTO TEST_TABLE ( COUNTRY, CURRENCY ) VALUES ( 'Austria', 'Euro' ); INSERT INTO TEST_TABLE ( COUNTRY, CURRENCY ) VALUES ( 'Fiji', 'FDollar' ); INSERT INTO TEST_TABLE ( COUNTRY, CURRENCY ) VALUES ( 'Russia', 'Ruble' ); INSERT INTO TEST_TABLE ( COUNTRY, CURRENCY ) VALUES ( 'Romania', 'RLeu' ); INSERT INTO TEST_TABLE ( COUNTRY, CURRENCY ) VALUES ( 'Ukraine', 'Hryvnia' ); INSERT INTO TEST_TABLE ( COUNTRY, CURRENCY ) VALUES ( 'Czechia', 'CzKoruna' ); INSERT INTO TEST_TABLE ( COUNTRY, CURRENCY ) VALUES ( 'Brazil', 'Real' ); INSERT INTO TEST_TABLE ( COUNTRY, CURRENCY ) VALUES ( 'Chile', 'ChPeso' ); INSERT INTO TEST_TABLE ( COUNTRY, CURRENCY ) VALUES ( 'Spain', 'Euro' ); INSERT INTO TEST_TABLE ( COUNTRY, CURRENCY ) VALUES ( 'Hungary', 'Forint' ); INSERT INTO TEST_TABLE ( COUNTRY, CURRENCY ) VALUES ( 'Sweden', 'SKrona' ); INSERT INTO TEST_TABLE ( COUNTRY, CURRENCY ) VALUES ( 'Greece', 'Euro' ); INSERT INTO TEST_TABLE ( COUNTRY, CURRENCY ) VALUES ( 'Slovakia', 'Euro' ); INSERT INTO TEST_TABLE ( COUNTRY, CURRENCY ) VALUES ( 'Portugal', 'Euro' );
+    ELSE
+        VAR    ${expected_content}    -- table creating -- CREATE TABLE TEST_TABLE ( COUNTRY VARCHAR(15), CURRENCY VARCHAR(10) ); -- inserting data -- INSERT INTO TEST_TABLE ( COUNTRY, CURRENCY ) VALUES ( 'USA', 'Dollar' ); INSERT INTO TEST_TABLE ( COUNTRY, CURRENCY ) VALUES ( 'England', 'Pound' ); INSERT INTO TEST_TABLE ( COUNTRY, CURRENCY ) VALUES ( 'Canada', 'CdnDlr' ); INSERT INTO TEST_TABLE ( COUNTRY, CURRENCY ) VALUES ( 'Switzerland', 'SFranc' ); INSERT INTO TEST_TABLE ( COUNTRY, CURRENCY ) VALUES ( 'Japan', 'Yen' ); INSERT INTO TEST_TABLE ( COUNTRY, CURRENCY ) VALUES ( 'Italy', 'Euro' ); INSERT INTO TEST_TABLE ( COUNTRY, CURRENCY ) VALUES ( 'France', 'Euro' ); INSERT INTO TEST_TABLE ( COUNTRY, CURRENCY ) VALUES ( 'Germany', 'Euro' ); INSERT INTO TEST_TABLE ( COUNTRY, CURRENCY ) VALUES ( 'Australia', 'ADollar' ); INSERT INTO TEST_TABLE ( COUNTRY, CURRENCY ) VALUES ( 'Hong Kong', 'HKDollar' ); INSERT INTO TEST_TABLE ( COUNTRY, CURRENCY ) VALUES ( 'Netherlands', 'Euro' ); INSERT INTO TEST_TABLE ( COUNTRY, CURRENCY ) VALUES ( 'Belgium', 'Euro' ); INSERT INTO TEST_TABLE ( COUNTRY, CURRENCY ) VALUES ( 'Austria', 'Euro' ); INSERT INTO TEST_TABLE ( COUNTRY, CURRENCY ) VALUES ( 'Fiji', 'FDollar' ); INSERT INTO TEST_TABLE ( COUNTRY, CURRENCY ) VALUES ( 'Russia', 'Ruble' ); INSERT INTO TEST_TABLE ( COUNTRY, CURRENCY ) VALUES ( 'Romania', 'RLeu' );
+    END
+
     Check content    ${export_path}    ${expected_content}
 
 

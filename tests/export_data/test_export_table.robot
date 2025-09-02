@@ -10,7 +10,7 @@ Test Teardown    Teardown after every tests
 test_1
     Open connection
     Clear Text Field    0
-    Type Into Text Field    0    SELECT * FROM COUNTRY
+    Insert Into Text Field    0    SELECT * FROM COUNTRY
     Push Button    execute-script-command
     Sleep    1s  
     Select From Table Cell Popup Menu    0    0    0   Export|Table
@@ -18,11 +18,20 @@ test_1
     Select From Combo Box    typeCombo    CSV
     ${export_path}=     Catenate    SEPARATOR=    ${TEMPDIR}    /export.csv
     Remove Files    ${export_path}
+    Uncheck All Checkboxes
     Select From Combo Box    columnDelimiterCombo    ;
     Clear Text Field    filePathField
     Type Into Text Field    filePathField    ${export_path}
-    Uncheck All Checkboxes
-    ${expected_content}=    Catenate    SEPARATOR=\n    USA;Dollar    England;Pound    Canada;CdnDlr    Switzerland;SFranc    Japan;Yen    Italy;Euro    France;Euro    Germany;Euro    Australia;ADollar    Hong Kong;HKDollar    Netherlands;Euro    Belgium;Euro    Austria;Euro    Fiji;FDollar    Russia;Ruble    Romania;RLeu    ${EMPTY}
+    ${info}=    Get Server Info
+    ${ver}=     Set Variable    ${info}[1]
+    ${ser_ver}=    Set Variable    ${info}[2]
+    IF    ${{$ver == '2.6'}}
+        ${expected_content}=    Catenate    SEPARATOR=\n    USA;Dollar    England;Pound    Canada;CdnDlr    Switzerland;SFranc    Japan;Yen    Italy;Lira    France;FFranc    Germany;D-Mark    Australia;ADollar    Hong Kong;HKDollar    Netherlands;Guilder    Belgium;BFranc    Austria;Schilling    Fiji;FDollar    ${EMPTY}
+    ELSE IF    ${{$ser_ver == 'Firebird' or ($ser_ver == 'RedDatabase' and $ver == '3.0')}}
+        ${expected_content}=    Catenate    SEPARATOR=\n    USA;Dollar    England;Pound    Canada;CdnDlr    Switzerland;SFranc    Japan;Yen    Italy;Euro    France;Euro    Germany;Euro    Australia;ADollar    Hong Kong;HKDollar    Netherlands;Euro    Belgium;Euro    Austria;Euro    Fiji;FDollar    Russia;Ruble    Romania;RLeu    Ukraine;Hryvnia    Czechia;CzKoruna    Brazil;Real    Chile;ChPeso    Spain;Euro    Hungary;Forint    Sweden;SKrona    Greece;Euro    Slovakia;Euro    Portugal;Euro    ${EMPTY}
+    ELSE
+        ${expected_content}=    Catenate    SEPARATOR=\n    USA;Dollar    England;Pound    Canada;CdnDlr    Switzerland;SFranc    Japan;Yen    Italy;Euro    France;Euro    Germany;Euro    Australia;ADollar    Hong Kong;HKDollar    Netherlands;Euro    Belgium;Euro    Austria;Euro    Fiji;FDollar    Russia;Ruble    Romania;RLeu    ${EMPTY}
+    END
     Push Button    exportButton
     Sleep    5s
     Close Dialog    Message

@@ -14,7 +14,7 @@ test_1
     Select Dialog    Create role
     Type Into Text Field    nameField    test_role
     Push Button      submitButton
-    Select Dialog    dialog1
+    Select Dialog    Commiting changes
     Push Button      commitButton
     Select Window    regexp=^RDB.*
     Sleep    1s
@@ -23,5 +23,5 @@ test_1
     Should Be Equal    ${result}    [('TEST_ROLE ',)]
     Click On Table Cell    rolesTable    ${row}    Role name  
     Push Button    deleteRoleButton
-    Select Dialog    Dropping object
+    Select Dialog    Commiting changes
     Push Button      commitButton

@@ -10,7 +10,7 @@ Test Teardown    Teardown after every tests
 test_1
     Open connection
     Clear Text Field    0
-    Type Into Text Field    0    SELECT * FROM PROJECT
+    Insert Into Text Field    0    SELECT * FROM PROJECT
     Push Button    execute-script-command
     Sleep    1s  
     Select From Table Cell Popup Menu    0    0    0   Export|Table

@@ -6,30 +6,34 @@ Test Teardown    Teardown after every tests
 
 *** Test Cases ***
 test_check_no_ignore
-    ${rdb5}=    Init extract
+    Init extract
     ${script_without_properties}=    Extract
+    Log Variables
     @{result}=    Check Ignore    ${script_without_properties}
     # Delete Objects    ${rdb5}
-    Should Be Equal As Strings    ${result}    [15, 1, 1, 1, 1, 1]
+    ${info}=    Get Server Info
+    ${ver}=     Set Variable    ${info}[1]
+    IF    '${ver}' == '2.6'
+        Should Be Equal As Strings    ${result}    [12, 3, 10, 14, 3, 23]
+    ELSE
+        Should Be Equal As Strings    ${result}    [15, 3, 10, 14, 3, 23]
+    END
 
 test_check_ignore
-    ${rdb5}=    Init extract
+    Init extract
     Push Button    selectAllExtractPropertiesButton
     ${script_without_properties}=    Extract
+    Log Variables
     @{result}=    Check Ignore    ${script_without_properties}
     # Delete Objects    ${rdb5}
-    Should Be Equal As Strings    ${result}    [0, 0, 0, 0, 0, 0]
+    Should Be Equal As Strings    ${result}    [0, 0, 0, 0, 1, 9]
 
 
 *** Keywords ***
 Init extract
-    ${info}=    Get Server Info
-    ${ver}=     Set Variable    ${info}[1]
-    VAR    ${rdb5}    ${{$ver == '5.0'}}
     Lock Employee
-    Create Objects    ${rdb5}
+    Create Objects
     Push Button    extract-metadata-command
-    RETURN    ${rdb5}
 
 Extract
     Push Button    extractButton
@@ -41,5 +45,5 @@ Extract
     
 Check Ignore
     [Arguments]    ${script}
-    @{result}    Create List    ${{$script.count("COMMENT ON")}}    ${{$script.count("COMPUTED FIELDs defining")}}    ${{$script.count("PRIMARY KEYs defining")}}    ${{$script.count("FOREIGN KEYs defining")}}    ${{$script.count("UNIQUE KEYs defining")}}    ${{$script.count("CHECK KEYs defining")}}
+    @{result}    Create List    ${{$script.count("COMMENT ON")}}    ${{$script.count("COMPUTED BY")}}    ${{$script.count("PRIMARY KEY")}}    ${{$script.count("FOREIGN KEY")}}    ${{$script.count("UNIQUE")}}    ${{$script.count("CHECK (")}}
     RETURN    @{result}

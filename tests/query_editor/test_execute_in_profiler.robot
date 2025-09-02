@@ -13,7 +13,7 @@ test_1
     Type Into Text Field    0    SELECT * FROM COUNTRY;
     Push Button    execute-in-profiler-command
     Sleep    3s
-    Push Button    Discard
+    Push Button    discardButton
 
 test_2
     Check Skip

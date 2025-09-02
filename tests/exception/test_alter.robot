@@ -14,6 +14,9 @@ test_1
     Check    CREATE OR ALTER EXCEPTION NEW_EXP 'new_message'
 
 test_2
+    ${info}=    Get Server Info
+    ${ver}=     Set Variable    ${info}[1]
+    Skip If    ${{$ver == '2.6'}}
     Init    "NEW EXP"    NEW EXP
     Select Tab As Context    Privileges
     Sleep    1s
@@ -40,11 +43,11 @@ Init
 Check
     [Arguments]    ${text}
     Push Button    submitButton
-    Select Dialog    Edit exception
+    Select Dialog    Commiting changes
     ${res}=    Get Text Field Value    0
     Should Be Equal As Strings    ${res}    ${text}
 
     Push Button    commitButton
     Sleep    0.1s
     ${old}=    Set Jemmy Timeout    DialogWaiter.WaitDialogTimeout	0
-    Run Keyword And Expect Error    org.netbeans.jemmy.TimeoutExpiredException: Dialog with name or title 'Edit exception'    Select Dialog    Edit exception
+    Run Keyword And Expect Error    org.netbeans.jemmy.TimeoutExpiredException: Dialog with name or title 'Commiting changes'    Select Dialog    Commiting changes

@@ -6,40 +6,11 @@ Test Setup       Setup before every tests
 Test Teardown    Teardown after every tests
 
 *** Test Cases ***
-test_1
-    ${bk_path}=    Catenate    SEPARATOR=    ${TEMPDIR}    /employee_backup.fbk
-    Remove File    ${bk_path}
-    Select From Main Menu    Database|Database Backup/Restore
-    Uncheck All Checkboxes
-    Clear Text Field     backupFileField
-    Type Into Text Field    backupFileField    ${bk_path}
-
-    Push Button    backupButton
-    Sleep    2s
-    Select Dialog    Message
-    Label Text Should Be    0    Backup completed successfully!
-    Push Button    OK
-
-    File Should Exist    ${bk_path} 
-
-    Select Main Window
-    Select Tab    Restore
-    Uncheck All Checkboxes
-    
-    Push Button    restoreButton
-    Sleep    2s
-    Select Dialog    Message
-    Label Text Should Be    0    Restore completed successfully!
-    Push Button    OK
-
-    #delete files
-    Remove File    ${bk_path}
-
-
 test_full_check
     ${log_path}=    Catenate    SEPARATOR=    ${TEMPDIR}    /test_log.txt
     ${bk_path}=    Catenate    SEPARATOR=    ${TEMPDIR}    /employee_backup.fbk
     Remove Files   ${log_path}    ${bk_path}
+    Open connection
     Select From Main Menu    Database|Database Backup/Restore
     
     Check All Checkboxes
@@ -48,6 +19,9 @@ test_full_check
     Sleep    3s
     Clear Text Field     fileLogFieldBackup
     Type Into Text Field    fileLogFieldBackup    ${log_path}
+    # ${home_dir} =	Normalize Path    ~
+    # ${current_path}=    Get Text Field Value    backupFileField
+    # Should Be Equal As Strings    ${current_path}    ${home_dir}${/}backup.fbk
     Clear Text Field     backupFileField
     Type Into Text Field    backupFileField    ${bk_path}
 

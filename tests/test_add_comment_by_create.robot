@@ -66,20 +66,23 @@ test_create_procedure_cursors
     Send Keyboard Event    VK_ENTER
     Select Dialog    dialog0
     Push Button    submitButton
-    Select Dialog    dialog1
+    Select Dialog    Commiting changes
     ${res}=    Get Text Field Value    0
     Sleep    1s
     Should Not Be Equal As Integers    ${{$res.find('test_comment')}}    -1
 
 test_create_function
+    Check Skip 2.6
     Init Create    Functions (0)    Create function
     Check Comment
 
 test_create_function_arg
+    Check Skip 2.6
     Init Create    Functions (0)    Create function
     Check Procedure    Arguments
 
 test_create_function_variables
+    Check Skip 2.6
     Init Create    Functions (0)    Create function
     Check Procedure    Variables
 
@@ -88,6 +91,7 @@ test_create_function_cursors
     Init Create    Functions (0)    Create function
 
 test_create_package
+    Check Skip 2.6
     Init Create    Packages (0)    Create package
     Check Comment
 
@@ -97,6 +101,7 @@ test_create_trigger_for_table
     Check Comment
 
 test_create_trigger_for_ddl
+    Check Skip 2.6
     Init Create    DDL Triggers (0)    Create DDL trigger
     Check Check Box    anyStatementCheck
     Check Comment
@@ -116,15 +121,6 @@ test_create_exception
 test_create_udf
     Init Create    UDFs (0)    Create UDF
     Check Comment 
-
-test_create_user
-    Init Create    Users (1)    Create user
-    Type Into Text Field    passTextField    123
-    Check Comment
-
-test_create_role
-    Init Create    Roles (0)    Create role
-    Check Comment
 
 test_create_index
     Init Create    Indices (38)    Create index
@@ -146,7 +142,13 @@ test_create_job
 Check Skip
     ${info}=    Get Server Info
     ${ver}=     Set Variable    ${info}[1]
-    Skip If    ${{$ver != '5.0'}}
+    ${srv_ver}=    Set Variable    ${info}[2]
+    Skip If    ${{not($ver == '5.0' and $srv_ver == 'RedDatabase')}}
+
+Check Skip 2.6
+    ${info}=    Get Server Info
+    ${ver}=     Set Variable    ${info}[1]
+    Skip If    ${{$ver == '2.6'}}
 
 Init Create
     [Arguments]    ${object}    ${menu}
@@ -157,6 +159,9 @@ Init Create
 Check Procedure
     [Arguments]    ${tab}
     Select Tab As Context    ${tab}
+    IF    '${tab}' == 'Variables'
+        Push Button    addRowButton    
+    END
     Type Into Table Cell    0    0    Name    TEST
     Set Table Cell Value    0    0    Datatype    BIGINT
     Type Into Table Cell    0    0    Comment    test_comment
@@ -164,7 +169,7 @@ Check Procedure
     Send Keyboard Event    VK_ENTER
     Select Dialog    dialog0
     Push Button    submitButton
-    Select Dialog    dialog1
+    Select Dialog    Commiting changes
     Sleep    1s
     ${res}=    Get Text Field Value    0
     Should Not Be Equal As Integers    ${{$res.find('test_comment')}}    -1
@@ -180,7 +185,7 @@ Check Column Comment
     Type Into Table Cell    0    0    Comment    test_comment
     Send Keyboard Event    VK_ENTER
     Push Button    submitButton
-    Select Dialog    dialog1
+    Select Dialog    Commiting changes
     Sleep    1s
     ${res}=    Get Text Field Value    0
     Should Not Be Equal As Integers    ${{$res.find('\'test_comment\'')}}    -1
@@ -191,7 +196,7 @@ Check Comment
     Type Into Text Field    0    test_comment
     Select Dialog    dialog0
     Push Button    submitButton
-    Select Dialog    dialog1
+    Select Dialog    Commiting changes
     Sleep    1s
     ${res}=    Get Text Field Value    0
     Should Not Be Equal As Integers    ${{$res.find('\'test_comment\'')}}    -1

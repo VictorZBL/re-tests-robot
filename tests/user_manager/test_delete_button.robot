@@ -14,13 +14,17 @@ test_1
     Select Dialog           Create user               #id: dialog0
     Clear Text Field        nameField
     Type Into Text Field    nameField          test
-    Type Into Text Field    passTextField      test
+    Type Into Text Field    passwordField      test
     Type Into Text Field    firstNameField      test
     Type Into Text Field    middleNameField    test
     Type Into Text Field    lastNameField      test
     Push Button      submitButton
-    Select Dialog    dialog1
-    Push Button      commitButton
+    ${info}=    Get Server Info
+    ${ver}=     Set Variable    ${info}[1]
+    IF    ${{$ver != '2.6'}}
+        Select Dialog    Commiting changes
+        Push Button      commitButton
+    END
     Sleep    1s
     Select Window    regexp=^RDB.*
     ${row}=    Find Table Row    usersTable    TEST    User name
@@ -28,5 +32,7 @@ test_1
     Should Be Equal  TEST    ${cellValue}
     Select Table Cell    usersTable    ${row}    User name
     Push Button    deleteUserButton
-    Select Dialog    Dropping object
-    Push Button      commitButton
+    IF    ${{$ver != '2.6'}}
+        Select Dialog    Commiting changes
+        Push Button      commitButton
+    END

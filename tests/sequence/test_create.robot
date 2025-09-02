@@ -1,7 +1,8 @@
 *** Settings ***
 Library    RemoteSwingLibrary
 Resource    ../../files/keywords.resource
-Test Setup       Setup before every tests
+Resource    keys.resource
+Test Setup       Setup
 Test Teardown    Teardown after every tests
 
 *** Test Cases ***
@@ -52,7 +53,7 @@ Init
 
 Check
     [Arguments]    ${text}    ${name}
-    Select Dialog    dialog1
+    Select Dialog    Commiting changes
     Sleep    1s
     ${res}=    Get Text Field Value    0
     Should Be Equal As Strings    ${res}    ${text}
@@ -66,7 +67,7 @@ Check
     Tree Node Should Exist    0     New Connection|Sequences (3)|${name}
 
 Error check
-    Select Dialog    dialog1
+    Select Dialog    Commiting changes
     Sleep    1s
     ${value}=    Get Table Cell Value    0    0    Status
     Should Be Equal As Strings    ${value}    Error

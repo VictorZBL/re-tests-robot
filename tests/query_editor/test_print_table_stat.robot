@@ -16,7 +16,7 @@ test_single_statement
 *** Keywords ***
 Select Driver
     [Arguments]    ${driver}
-    Select From Tree Node Popup Menu    0    New Connection    Connection information
+    Select From Tree Node Popup Menu    0    New Connection    Connection properties
     Select From Combo Box    driverCombo    ${driver}
 
 Check Tool
@@ -26,8 +26,9 @@ Check Tool
     ${values}=    Get Table Values    0
     ${row}=    Find Table Row    0    Execute single statement    2
     Click On Table Cell    0    ${row}    0
-    Push Button    OK
+    Push Button    applyButton
     Close Dialog    Message
+    Close Dialog    Preferences
     Select Main Window
 
 Run Script

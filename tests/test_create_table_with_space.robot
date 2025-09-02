@@ -19,7 +19,7 @@ Create Table
     Open connection
     Expand Tree Node    0    New Connection    
     Select From Tree Node Popup Menu    0    New Connection|${type}    ${create}
-    Select Dialog    Create Table
+    Select Dialog    Create table
     Clear Text Field    nameField
     Type Into Text Field    nameField    TEST TABLE
     Type Into Table Cell    0    0    Name    TEST
@@ -27,6 +27,6 @@ Create Table
     Click On Table Cell    0    0    Name    2      
     Send Keyboard Event    VK_ENTER                
     Push Button    submitButton
-    Select Dialog    dialog1
+    Select Dialog    Commiting changes
     ${textFieldValue}=    Get Textfield Value    0
     Should Not Be Equal As Integers    ${{$textFieldValue.find('"TEST TABLE"')}}    -1

@@ -6,7 +6,7 @@ Test Teardown    Teardown after every tests
 
 *** Test Cases ***
 test_save_script
-    ${rdb5}=    Start
+    Start
     Select Tab As Context    SQL
     Push Button    saveScriptButton
     ${script_path}=     Catenate    SEPARATOR=    ${TEMPDIR}    /script.sql
@@ -17,6 +17,10 @@ test_save_script
     Type Into Text Field    0    ${script_path}
     Push Button    Save Script
     Sleep    2s
+    Close Dialog    Message
+    Select Main Window
+    Open connection
+    Execute Immediate    ALTER TABLE COUNTRY ADD NEW_COLUMN BIGINT
     Create Database   ${script_path}    ${test_base_path}
     Create Connect    ${test_base_path}
     Compare DB
@@ -24,7 +28,7 @@ test_save_script
     
 
 test_execute_script
-    ${rdb5}=    Start
+    Start
     Select Tab As Context    SQL
     Push Button    executeScriptButton
     Sleep    1s
@@ -37,24 +41,26 @@ test_execute_script
 
 *** Keywords ***
 Start
-    ${info}=    Get Server Info
-    ${ver}=     Set Variable    ${info}[1]
-    VAR    ${rdb5}    ${{$ver == '5.0'}}
     Lock Employee
-    Create Objects    ${rdb5}
+    Create Objects
     Push Button    extract-metadata-command
     Push Button    extractButton
     Close Dialog    Message
-    RETURN    ${rdb5}
 
 Create Connect
     [Arguments]    ${test_base_path}
     Select Window    regexp=^RDB.*
     Push Button    new-connection-command
     Sleep    1s
-    Type Into Text Field    3    ${test_base_path}
-    Type Into Text Field    5    sysdba
-    Type Into Text Field    6    masterkey
+    ${info}=    Get Server Info
+    ${ver}=     Set Variable    ${info}[1]
+    IF    ${{$ver == '2.6'}}
+        Select From Combo Box    serverCombo    Red Database (Firebird) 2.X
+        Select From Combo Box    authCombo    Basic
+    END
+    Type Into Text Field    fileField    ${test_base_path}
+    Type Into Text Field    userField    sysdba
+    Type Into Text Field    passwordField    masterkey
     Check Check Box    Store Password
     Push Button    saveButton
 
@@ -67,6 +73,6 @@ Compare DB
     Sleep    2s
     Select Dialog    Message
     Run Keyword And Continue On Failure    Label Text Should Be    1    Objects to create - 0
-    Run Keyword And Continue On Failure    Label Text Should Be    2    Objects to drop - 0
-    Run Keyword And Continue On Failure    Label Text Should Be    3    Objects to alter - 10
+    Run Keyword And Continue On Failure    Label Text Should Be    3    Objects to drop - 0
+    Run Keyword And Continue On Failure    Label Text Should Be    2    Objects to alter - 1
     Sleep    2s

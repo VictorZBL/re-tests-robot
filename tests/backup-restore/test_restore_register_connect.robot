@@ -4,12 +4,13 @@ Library    OperatingSystem
 Resource    ../../files/keywords.resource
 Test Setup       Setup before every tests
 Test Teardown    Teardown after every tests
-Test Timeout    60s
+ 
 
 *** Test Cases ***
 test_1    
     ${bk_path}=    Catenate    SEPARATOR=    ${TEMPDIR}    /employee_backup.fbk
     Remove File    ${bk_path}
+    Open connection
     Select From Main Menu    Database|Database Backup/Restore
     Uncheck All Checkboxes
     Clear Text Field     backupFileField

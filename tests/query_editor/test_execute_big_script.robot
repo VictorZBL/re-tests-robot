@@ -2,29 +2,32 @@
 Library    RemoteSwingLibrary
 Resource    ../../files/keywords.resource
 Test Setup       Setup before every tests
-Test Teardown    Teardown after every tests
+Test Teardown    Teardown
 
 
 *** Test Cases ***
-test_execute_3
+test_execute
     ${info}=    Get Server Info
     ${ver}=     Set Variable    ${info}[1]
-    Skip If    ${{$ver != '3.0'}}
-    Init    test_script3.sql
-    Sleep    10s
-
-test_execute_5
-    ${info}=    Get Server Info
-    ${ver}=     Set Variable    ${info}[1]
-    Skip If    ${{$ver != '5.0'}}
-    Init    test_script5.sql
+    ${srv_ver}=    Set Variable    ${info}[2]
+    IF    ${{$ver == '5.0' and $srv_ver == 'RedDatabase'}}
+        Init    test_script5.sql
+    ELSE IF    ${{$ver == '2.6'}}
+        Init    test_script26.sql
+    ELSE
+        Init    test_script3.sql
+    END
     Sleep    5s
+    Push Button    editor-stop-on-error-command
+
 
 test_cancel
-    Init    test_script3.sql
+    Init    test_script26.sql
     Sleep    0.5s
     Push Button    stop-execution-command
     Sleep    5s
+    Push Button    editor-stop-on-error-command
+
 
 *** Keywords ***
 Init
@@ -39,4 +42,9 @@ Init
     Type Into Text Field    0    ${script_path}
     Push Button    Open
     Select Main Window
+    Push Button    editor-stop-on-error-command
     Run Keyword In Separate Thread    Push Button    execute-script-command
+
+Teardown
+    Teardown after every tests
+    Run Keyword And Ignore Error    Execute Immediate    DROP USER TEST_USER

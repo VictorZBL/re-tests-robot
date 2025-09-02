@@ -3,7 +3,8 @@ Library    RemoteSwingLibrary
 Library    Process
 Library    Collections
 Resource    ../../files/keywords.resource
-Test Setup       Setup before every tests
+Resource    keys.resource
+Test Setup       Setup
 Test Teardown    Teardown after every tests
 
 *** Test Cases ***
@@ -40,7 +41,7 @@ test_cron_false
     
     Select Dialog    Create job
     Push Button    submitButton
-    Select Dialog    dialog1
+    Select Dialog    Commiting changes
     ${row}=    Find Table Row    0    Success    Status
     ${script}=    Get Text Field Value    0
     Should Not Be Equal As Integers    ${row}    -1
@@ -195,20 +196,14 @@ test_cron_true
 
     Select Dialog    Create job
     Push Button    submitButton
-    Select Dialog    dialog1
+    Select Dialog    Commiting changes
     ${row}=    Find Table Row    0    Success    Status
     ${script}=    Get Text Field Value    0
     Should Not Be Equal As Integers    ${row}    -1
     Should Be Equal As Strings    ${script}    CREATE JOB NEW_JOB_1 '12-58 12-23 13-31 3-10 2-6' ACTIVE START DATE NULL END DATE NULL AS begin /*job is here*/ end    collapse_spaces=${True}
 
-*** Keywords ***
-Check Skip
-    ${info}=    Get Server Info
-    ${ver}=     Set Variable    ${info}[1]
-    Skip If    ${{$ver != '5.0'}}
-    
+*** Keywords ***    
 Init Create
-    Check Skip
     Open connection
     Select From Tree Node Popup Menu    0    New Connection|Jobs (0)    Create job
     Select Dialog    Create job

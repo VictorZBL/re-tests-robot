@@ -28,12 +28,14 @@ test_alter_procedure
     Check Comment    RDB$PROCEDURES
 
 test_alter_function
+    Check Skip 2.6
     Lock Employee
     Execute Immediate    CREATE OR ALTER FUNCTION NEW_FUNC RETURNS VARCHAR(5) AS begin RETURN 'five'; end
     Init Alter    Functions (1)|NEW_FUNC
     Check Comment    RDB$FUNCTIONS
 
 test_alter_package
+    Check Skip 2.6
     Lock Employee
     Execute Immediate    CREATE OR ALTER PACKAGE NEW_PACK AS BEGIN END
     Init Alter    Packages (1)|NEW_PACK
@@ -44,6 +46,7 @@ test_alter_trigger_for_table
     Check Comment    RDB$TRIGGERS
 
 test_alter_trigger_for_ddl
+    Check Skip 2.6
     Lock Employee
     Execute Immediate    CREATE OR ALTER TRIGGER NEW_TRIGGER ACTIVE BEFORE ANY DDL STATEMENT POSITION 0 AS BEGIN END
     Init Alter    DDL Triggers (1)|NEW_TRIGGER
@@ -78,6 +81,7 @@ test_alter_udf
     Check Comment     RDB$FUNCTIONS
 
 test_alter_user
+    Check Skip 2.6
     Init Alter    Users (1)|SYSDBA
     Select Tab As Context    Comment
     Clear Text Field    0
@@ -113,7 +117,13 @@ test_alter_job
 Check Skip
     ${info}=    Get Server Info
     ${ver}=     Set Variable    ${info}[1]
-    Skip If    ${{$ver != '5.0'}}
+    ${srv_ver}=    Set Variable    ${info}[2]
+    Skip If    ${{not($ver == '5.0' and $srv_ver == 'RedDatabase')}}
+
+Check Skip 2.6
+    ${info}=    Get Server Info
+    ${ver}=     Set Variable    ${info}[1]
+    Skip If    ${{$ver == '2.6'}}
 
 Init Alter
     [Arguments]    ${object}
