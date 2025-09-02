@@ -14,13 +14,13 @@ test_1
     Select Dialog    Warning
     Push Button    OK
 
-    Select Window    regexp=^RDB.*
+    Select Main Window
     Select Tab As Context    SQL
     Push Button    executeScriptButton
     Select Dialog    Warning
     Push Button    OK
     
-    Select Window    regexp=^RDB.*
+    Select Main Window
     Push Button    selectAllExtractAttributesButton
     Push Button    executeScriptButton
     Select Dialog    Warning

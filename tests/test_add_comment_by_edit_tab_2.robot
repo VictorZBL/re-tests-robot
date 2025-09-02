@@ -132,7 +132,7 @@ Check Comment
     Init Commit Window
 
 Init Commit Window
-    Select Window    regexp=^RDB.*
+    Select Main Window
     Push Button    submitButton
     Select Dialog    dialog0
     Sleep    1s

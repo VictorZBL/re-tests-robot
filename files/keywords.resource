@@ -27,6 +27,6 @@ Teardown after every tests
 Open connection
     Click On Tree Node    0    New Connection    2
 
-Connect To Red Expert
+Connect To RDBExpert
     Application Started    red_expert    timeout=20    remote_port=60900
     Select Main Window

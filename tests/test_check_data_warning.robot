@@ -20,7 +20,7 @@ test_1
     Sleep    1s
     Click On Table Cell    0    0    TEST_COL
     Push Button    1
-    Select Window    regexp=^RDB.*
+    Select Main Window
     Run Keyword In Separate Thread     Select Tab    Constraints    ${EMPTY}
     List Dialogs
     Select Dialog    Confirmation

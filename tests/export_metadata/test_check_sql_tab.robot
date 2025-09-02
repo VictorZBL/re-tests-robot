@@ -49,7 +49,7 @@ Start
 
 Create Connect
     [Arguments]    ${test_base_path}
-    Select Window    regexp=^RDB.*
+    Select Main Window
     Push Button    new-connection-command
     Sleep    1s
     ${info}=    Get Server Info
@@ -65,7 +65,7 @@ Create Connect
     Push Button    saveButton
 
 Compare DB
-    Select Window    regexp=^RDB.*
+    Select Main Window
     Push Button    comparerDB-command
     Select From Combo Box    dbMasterComboBox    New Connection 1
     Push Button    selectAllAttributesButton

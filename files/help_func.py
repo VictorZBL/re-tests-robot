@@ -23,10 +23,10 @@ def get_pom_file():
                 context = f.read()
                 print(context)
 
-def kill_redexpert():
+def kill_rdbexpert():
     time.sleep(10)
     for proc in psutil.process_iter():
-        if proc.name() == f'RedExpert64{get_exe()}' or proc.name() == f'java{get_exe()}':
+        if f'RDBExpert64{get_exe()}' in proc.name() or proc.name() == f'java{get_exe()}':
             proc.terminate()
 
 def run_server():
@@ -51,7 +51,7 @@ def stop_server():
     p = None
 
 def get_build_no():
-    return os.environ.get('BUILD', "202508")
+    return os.environ.get('BUILD', "202509")
 
 def backup_savedconnections_file():
     backup_file("connection-saved.xml")
@@ -80,14 +80,14 @@ def restore_audit_profiles():
 def backup_file(file_name: str):
     home_dir = os.path.expanduser("~")
     build_no = get_build_no()
-    file_path = os.path.join(home_dir, f'.redexpert/{build_no}/{file_name}')
+    file_path = os.path.join(home_dir, f'.rdbexpert/{build_no}/{file_name}')
     if os.path.exists(file_path):
         shutil.copy(file_path, file_path + ".bak")
 
 def restore_file(file_name: str):
     home_dir = os.path.expanduser("~")
     build_no = get_build_no()
-    file_path = os.path.join(home_dir, f'.redexpert/{build_no}/{file_name}')
+    file_path = os.path.join(home_dir, f'.rdbexpert/{build_no}/{file_name}')
     if os.path.exists(file_path + ".bak"):
         if os.path.exists(file_path):
             os.remove(file_path)
@@ -96,7 +96,7 @@ def restore_file(file_name: str):
 def set_urls(urls: str):
     home_dir = os.path.expanduser("~")
     build_no = get_build_no()
-    user_properties_file = os.path.join(home_dir, f'.redexpert/{build_no}/user.properties')
+    user_properties_file = os.path.join(home_dir, f'.rdbexpert/{build_no}/user.properties')
     with open(user_properties_file, 'r') as f:
         context = f.read()
 
@@ -106,25 +106,25 @@ def set_urls(urls: str):
         f.write(context)
 
 def get_path_to_lib():
-    return os.environ.get('DIST', 'C:\\Program Files\\RedExpert') + "/lib"
+    return os.environ.get('DIST', 'C:\\Program Files\\RDBExpert') + "/lib"
 
 def get_path():
-    DIST = os.environ.get('DIST', 'C:\\Program Files\\RedExpert')
+    DIST = os.environ.get('DIST', 'C:\\Program Files\\RDBExpert')
     COVERAGE = os.environ.get('COVERAGE')
     bin = get_exe()
     if COVERAGE:
-        path_to_exe = f"java -javaagent:./lib/jacocoagent.jar=destfile=./results/jacoco.exec,output=file -jar {DIST}/RedExpert.jar -exe_path={DIST}/bin/RedExpert64{bin}"
+        path_to_exe = f"java -javaagent:./lib/jacocoagent.jar=destfile=./results/jacoco.exec,output=file -jar {DIST}/RDBExpert.jar -exe_path={DIST}/bin/RDBExpert64{bin}"
     else:
-        path_to_exe = f"{DIST}/bin/RedExpert64{bin}"
+        path_to_exe = f"{DIST}/bin/RDBExpert64{bin}"
     return path_to_exe
 
 def clear_history_files():
     home_dir = os.path.expanduser("~")
     build_no = get_build_no()
-    history_file = os.path.join(home_dir, f'.redexpert/{build_no}/connection-history.xml')
-    shortcuts_file = os.path.join(home_dir, f'.redexpert/{build_no}/shortcuts.properties')
-    user_panel_state_file = os.path.join(home_dir, f'.redexpert/{build_no}/saved-values.xml')
-    query_dir = os.path.join(home_dir, f'.redexpert/editor')
+    history_file = os.path.join(home_dir, f'.rdbexpert/{build_no}/connection-history.xml')
+    shortcuts_file = os.path.join(home_dir, f'.rdbexpert/{build_no}/shortcuts.properties')
+    user_panel_state_file = os.path.join(home_dir, f'.rdbexpert/{build_no}/saved-values.xml')
+    query_dir = os.path.join(home_dir, f'.rdbexpert/editor')
     if os.path.exists(query_dir):
         shutil.rmtree(query_dir)
     for file in [history_file, shortcuts_file, user_panel_state_file]:
@@ -133,7 +133,7 @@ def clear_history_files():
 
 def get_hosts_history_file():
     home_dir = os.path.expanduser("~")
-    hosts_history_file = os.path.join(home_dir, '.redexpert/hosts.history')
+    hosts_history_file = os.path.join(home_dir, '.rdbexpert/hosts.history')
     return hosts_history_file
 
 def copy_dist_path():
@@ -141,13 +141,13 @@ def copy_dist_path():
         os.chmod(path, stat.S_IWRITE)
         func(path)
 
-    DIST = os.environ.get('DIST', "C:\\Program Files\\RedExpert")
+    DIST = os.environ.get('DIST', "C:\\Program Files\\RDBExpert")
     tmp_dir = tempfile.gettempdir()
 
-    if os.path.exists(tmp_dir + '/RedExpert'):
-        shutil.rmtree(tmp_dir + '/RedExpert', onerror=_on_rm_error)
-    return_path = shutil.copytree(DIST, tmp_dir + '/RedExpert')
-    path_to_exe = return_path + f"/bin/RedExpert64{get_exe()}"
+    if os.path.exists(tmp_dir + '/RDBExpert'):
+        shutil.rmtree(tmp_dir + '/RDBExpert', onerror=_on_rm_error)
+    return_path = shutil.copytree(DIST, tmp_dir + '/RDBExpert')
+    path_to_exe = return_path + f"/bin/RDBExpert64{get_exe()}"
     return path_to_exe
 
 def get_server_info():    
@@ -207,7 +207,7 @@ def execute_immediate(query: str):
 
 def delete_query_files():
     home_dir = os.path.expanduser("~")
-    for path in Path(os.path.join(home_dir, f'.redexpert/editor')).glob("script*.sql"):
+    for path in Path(os.path.join(home_dir, f'.rdbexpert/editor')).glob("script*.sql"):
         os.remove(path)
 
 def check_build_config(conf_path: str, number: int):

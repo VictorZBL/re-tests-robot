@@ -23,7 +23,7 @@ test_extract
         fdb.Load Api    ${home}${fd_lib}
         fdb.Create Database    database=${test_base_path}    user=SYSDBA    password=masterkey
     END
-    Select Window    regexp=^Red.*
+    Select Main Window
     Push Button    new-connection-command
     Sleep    1s
     IF    ${{$ver == '2.6'}}

@@ -16,7 +16,7 @@ test_1
     Open connection
     Expand Tree Node    0    New Connection
     ${res1}=    Check user    DEMO    
-    Select Window    regexp=^Red.*
+    Select Main Window
     ${res2}=    Check user    dEmO    
     Should Be Equal    ${res1}    CREATE USER DEMO ACTIVE USING PLUGIN Srp;\n      collapse_spaces=True
     Should Be Equal    ${res2}    CREATE USER "dEmO" ACTIVE USING PLUGIN Srp;\n      collapse_spaces=True
