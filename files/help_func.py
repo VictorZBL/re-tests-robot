@@ -113,7 +113,7 @@ def get_path():
     COVERAGE = os.environ.get('COVERAGE')
     bin = get_exe()
     if COVERAGE:
-        path_to_exe = f"java -javaagent:./lib/jacocoagent.jar=destfile=./results/jacoco.exec,output=file -jar {DIST}/RDBExpert.jar -exe_path={DIST}/bin/RDBExpert{bin}"
+        path_to_exe = f"java -javaagent:./lib/jacocoagent.jar=destfile=./results/jacoco.exec,output=file -jar {DIST}/rdbexpert.jar -exe_path={DIST}/bin/RDBExpert{bin}"
     else:
         path_to_exe = f"{DIST}/bin/RDBExpert{bin}"
     return path_to_exe
