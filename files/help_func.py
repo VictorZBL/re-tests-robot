@@ -26,7 +26,7 @@ def get_pom_file():
 def kill_rdbexpert():
     time.sleep(10)
     for proc in psutil.process_iter():
-        if f'RDBExpert64{get_exe()}' in proc.name() or proc.name() == f'java{get_exe()}':
+        if f'RDBExpert{get_exe()}' in proc.name() or proc.name() == f'java{get_exe()}':
             proc.terminate()
 
 def run_server():
@@ -113,9 +113,9 @@ def get_path():
     COVERAGE = os.environ.get('COVERAGE')
     bin = get_exe()
     if COVERAGE:
-        path_to_exe = f"java -javaagent:./lib/jacocoagent.jar=destfile=./results/jacoco.exec,output=file -jar {DIST}/RDBExpert.jar -exe_path={DIST}/bin/RDBExpert64{bin}"
+        path_to_exe = f"java -javaagent:./lib/jacocoagent.jar=destfile=./results/jacoco.exec,output=file -jar {DIST}/RDBExpert.jar -exe_path={DIST}/bin/RDBExpert{bin}"
     else:
-        path_to_exe = f"{DIST}/bin/RDBExpert64{bin}"
+        path_to_exe = f"{DIST}/bin/RDBExpert{bin}"
     return path_to_exe
 
 def clear_history_files():
@@ -147,7 +147,7 @@ def copy_dist_path():
     if os.path.exists(tmp_dir + '/RDBExpert'):
         shutil.rmtree(tmp_dir + '/RDBExpert', onerror=_on_rm_error)
     return_path = shutil.copytree(DIST, tmp_dir + '/RDBExpert')
-    path_to_exe = return_path + f"/bin/RDBExpert64{get_exe()}"
+    path_to_exe = return_path + f"/bin/RDBExpert{get_exe()}"
     return path_to_exe
 
 def get_server_info():    

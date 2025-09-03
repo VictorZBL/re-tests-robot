@@ -16,7 +16,7 @@ Setup before every tests
         Kill Rdbexpert
     END
 
-    Select Window    regexp=^RDB.*
+    Select Main Window
 
 Teardown after every tests
     System Exit    0
