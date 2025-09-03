@@ -133,7 +133,7 @@ def clear_history_files():
 
 def get_hosts_history_file():
     home_dir = os.path.expanduser("~")
-    hosts_history_file = os.path.join(home_dir, '.rdbexpert/hosts.history')
+    hosts_history_file = os.path.join(home_dir, '.rdbexpert/.hosts')
     return hosts_history_file
 
 def copy_dist_path():

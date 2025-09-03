@@ -18,7 +18,7 @@ skip_version
     Start RDBExpert    \nupdate.use.https=false\nupdate.check.url=http\://localhost/?project=rdbexpert&version=9999.98\nupdate.check.rc.url=http\://localhost/?project=rdbexpert&version=9999.98&showrc=true
     Push Button    skipVersionButton
     ${home_dir}=	Normalize Path    ~
-    VAR    ${skipped_version_file_path}    ${home_dir}${/}.rdbexpert${/}skipped-version.re
+    VAR    ${skipped_version_file_path}    ${home_dir}${/}.rdbexpert${/}.versions
     File Should Exist    ${skipped_version_file_path}
     ${content}=    Get File    ${skipped_version_file_path}
     Should Be Equal As Strings    ${content}    9999.98
