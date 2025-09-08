@@ -26,6 +26,10 @@ class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
                     {
                         "FILE_NAME": f"RedExpert-{new_version}.zip",
                         "FILE_PATH": f"{true_version}/download/rdbexpert:update:{true_version}:zip"
+                    },
+                    {
+                        "FILE_NAME": f"update.zip",
+                        "FILE_PATH": f"{true_version}/download/rdbexpert:update:{true_version}:zip"
                     },]
             }
             return data
