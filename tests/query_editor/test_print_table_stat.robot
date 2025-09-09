@@ -4,6 +4,7 @@ Resource    ../../files/keywords.resource
 Test Setup       Setup before every tests
 Test Teardown    Teardown after every tests
 
+
 *** Test Cases ***
 test_sql_script
     Run Script    execute-script-command
@@ -11,7 +12,7 @@ test_sql_script
 test_single_statement
     Check Tool
     Run Script    execute-statement-command
-    Check Tool
+    [Teardown]    Check Tool
 
 *** Keywords ***
 Select Driver
