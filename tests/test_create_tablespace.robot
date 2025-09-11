@@ -11,7 +11,7 @@ test_check_cursor
     Check Skip
     Open connection
     Expand Tree Node    0    New Connection    
-    Select From Tree Node Popup Menu    0    New Connection|Tablespaces (0)    Create tablespace
+    Select From Tree Node Popup Menu    0    New Connection|Tablespaces    Create tablespace
     Select Dialog    Create tablespace
     Type Into Text Field    1    test_file.ts
     Push Button    submitButton

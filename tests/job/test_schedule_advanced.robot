@@ -205,7 +205,7 @@ test_cron_true
 *** Keywords ***    
 Init Create
     Open connection
-    Select From Tree Node Popup Menu    0    New Connection|Jobs (0)    Create job
+    Select From Tree Node Popup Menu    0    New Connection|Jobs    Create job
     Select Dialog    Create job
     Check All Checkboxes
     Select Tab As Context    Task
