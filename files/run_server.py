@@ -14,7 +14,7 @@ class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
             self.wfile.write(json.dumps(response_data).encode())
 
         def init_data(new_version: str):
-            true_version = "2025.09-SNAPSHOT.18"
+            true_version = "2025.09-SNAPSHOT.31"
             data = {
                 "base_url": "http://builds.red-soft.biz/release_hub/red_expert/",
                 "version": f"{new_version}",
