@@ -56,7 +56,7 @@ Init
     [Arguments]    ${name}=NEW_TRIGGER
     Lock Employee
     Open connection
-    Select From Tree Node Popup Menu   0    New Connection|DB Triggers (0)    Create DB trigger
+    Select From Tree Node Popup Menu   0    New Connection|DB Triggers    Create DB trigger
     Select Dialog    Create DB trigger
     Clear Text Field    nameField
     Type Into Text Field    nameField    ${name}

@@ -10,7 +10,7 @@ Test Teardown    Teardown after every tests
 *** Test Cases ***
 test_cron_false
     Open connection
-    Select From Tree Node Popup Menu    0    New Connection|Jobs (0)    Create job
+    Select From Tree Node Popup Menu    0    New Connection|Jobs    Create job
     Select Dialog    Create job
     Clear Text Field    nameField
     Type Into Text Field    nameField    NEWJOB0

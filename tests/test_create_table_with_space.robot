@@ -11,7 +11,7 @@ test_create_table
     Create Table    Tables (10)    Create table
 
 test_create_gtt
-    Create Table    Global Temporary Tables (0)    Create global temporary table
+    Create Table    Global Temporary Tables    Create global temporary table
 
 *** Keywords ***
 Create Table

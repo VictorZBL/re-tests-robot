@@ -24,7 +24,7 @@ Init Role
     Open connection
     Expand Tree Node    0    New Connection
     Sleep    1s
-    Select From Tree Node Popup Menu    0    New Connection|Roles (0)    Create role
+    Select From Tree Node Popup Menu    0    New Connection|Roles    Create role
     Select Dialog    Create role
     Clear Text Field    nameField
     Type Into Text Field    nameField    ${name}
