@@ -35,7 +35,7 @@ remind_later
     Start Application    rdb_expert    ${path_to_exe}    timeout=30    remote_port=60900
     Select Main Window
     Sleep    0.5s
-    Select Dialog    rdb Expert Update
+    Select Dialog    Application Update
 
 *** Keywords ***
 Start RDBExpert
@@ -48,7 +48,7 @@ Start RDBExpert
     Start Application    rdb_expert    ${path_to_exe}    timeout=30    remote_port=60900
     Select Main Window
     Sleep    0.5s
-    Select Dialog    rdb Expert Update
+    Select Dialog    Application Update
     RETURN    ${path_to_exe}
 
 Teardown
