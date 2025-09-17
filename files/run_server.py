@@ -13,18 +13,23 @@ class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
             response_data = data
             self.wfile.write(json.dumps(response_data).encode())
 
-        def init_data(version: str):
+        def init_data(new_version: str):
+            true_version = "2025.09-SNAPSHOT.54"
             data = {
                 "base_url": "http://builds.red-soft.biz/release_hub/red_expert/",
-                "version": f"{version}",
+                "version": f"{new_version}",
                 "changelog": {
                 "ru": "Добавлено:",
                 "en": "Added:"
                 },
                 "files": [
                     {
-                        "FILE_NAME": f"RedExpert-{version}.zip",
-                        "FILE_PATH": "2025.06/download/red_expert:portable:2025.06:multiplatform.zip"
+                        "FILE_NAME": f"RedExpert-{new_version}.zip",
+                        "FILE_PATH": f"{true_version}/download/rdbexpert:update:{true_version}:zip"
+                    },
+                    {
+                        "FILE_NAME": f"update.zip",
+                        "FILE_PATH": f"{true_version}/download/rdbexpert:update:{true_version}:zip"
                     },]
             }
             return data

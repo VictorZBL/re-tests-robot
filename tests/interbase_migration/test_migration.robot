@@ -157,7 +157,7 @@ Suite Setup
     
     Backup Drivers
     ${path_to_exe}=    Get Path
-    Start Application    red_expert    ${path_to_exe}    timeout=20    remote_port=60900
+    Start Application    rdb_expert    ${path_to_exe}    timeout=20    remote_port=60900
     Select Main Window
     
     Select From Main Menu    System|Drivers
