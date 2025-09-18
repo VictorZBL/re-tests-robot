@@ -12,13 +12,17 @@ test_sql_script
 test_single_statement
     Check Tool
     Run Script    execute-statement-command
-    [Teardown]    Check Tool
+    [Teardown]    Teardown
 
 *** Keywords ***
 Select Driver
     [Arguments]    ${driver}
     Select From Tree Node Popup Menu    0    New Connection    Connection properties
     Select From Combo Box    driverCombo    ${driver}
+
+Teardown
+    Check Tool
+    Teardown after every tests
 
 Check Tool
     Select From Main Menu    System|Preferences
