@@ -118,7 +118,7 @@ test_identity_start_with
     Execute Immediate    INSERT INTO TEST_TABLE DEFAULT VALUES
     Execute Immediate    INSERT INTO TEST_TABLE DEFAULT VALUES
     ${res}=    Execute    SELECT * FROM TEST_TABLE
-    IF    ${{$ver == '5.0'}}
+    IF    ${{$ver == '5'}}
         Should Be Equal As Strings    ${res}    [(100,), (101,)]
     ELSE
         Should Be Equal As Strings    ${res}    [(101,), (102,)]
@@ -160,7 +160,7 @@ test_add_new_gen_without_identity
     ${res}=    Execute    SELECT COL FROM TEST_TABLE
     ${info}=    Get Server Info
     ${ver}=     Set Variable    ${info}[1]
-    IF    ${{$ver == '5.0'}}
+    IF    ${{$ver == '5'}}
         Should Be Equal As Strings    ${res}    [(0,), (1,)]
     ELSE
         Should Be Equal As Strings    ${res}    [(1,), (2,)]
@@ -362,7 +362,7 @@ Check SQL Statements
 Check Skip
     ${info}=    Get Server Info
     ${ver}=     Set Variable    ${info}[1]
-    Skip If    ${{$ver != '5.0'}}
+    Skip If    ${{$ver != '5'}}
 
 Check Skip 26
     ${info}=    Get Server Info

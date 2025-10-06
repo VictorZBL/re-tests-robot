@@ -71,7 +71,7 @@ test_grant_manager
 test_profiler
     ${info}=    Get Server Info
     ${ver}=     Set Variable    ${info}[1]
-    Skip if   ${{$ver != '5.0'}}
+    Skip if   ${{$ver != '5'}}
     Select From Main Menu    Tools|Profiler
     Push Button    startButton
     Sleep    2s

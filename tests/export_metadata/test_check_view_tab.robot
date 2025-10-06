@@ -11,7 +11,7 @@ test_full_list
     ${ver}=     Set Variable    ${info}[1]
     ${srv_ver} =    Set Variable    ${info}[2]
     ${node_names}=    Get Tree Node Child Names    dbComponentsTree    Objects To Create
-    IF  ${{$ver == '5.0' and $srv_ver == 'RedDatabase'}}
+    IF  ${{$ver == '5' and $srv_ver == 'RedDatabase'}}
         ${expected_names}=    Create List    Domains (15)    Tables (10)    Global Temporary Tables (1)    Views (1)    Procedures (10)    Functions (1)    Packages (1)    Table Triggers (4)    DDL Triggers (1)    DB Triggers (1)    Sequences (2)    Exceptions (5)    UDFs (1)    Roles (1)    Indices (12)    Tablespaces    Jobs    Collations (1)
     ELSE IF    ${{$ver == '2.6'}}
         ${expected_names}=    Create List    Domains (15)    Tables (10)    Global Temporary Tables (1)    Views (1)    Procedures (10)    Table Triggers (4)    DB Triggers (1)    Sequences (2)    Exceptions (5)    UDFs (1)    Roles (1)    Indices (12)    Collations (1)   

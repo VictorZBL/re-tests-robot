@@ -158,7 +158,7 @@ def get_server_info():
     else:        
         with connect_server(server='localhost', user='SYSDBA', password='masterkey') as srv:
             home_directory = srv.info.home_directory
-            version = str(srv._engine_version())
+            version = str(srv._engine_version())[0]
             srv_version = next(ver for ver in ["Firebird", "RedDatabase"] if srv.info.get_info(SrvInfoCode.SERVER_VERSION).find(ver) > -1)
     
     return home_directory, version, srv_version

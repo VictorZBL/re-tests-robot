@@ -32,7 +32,7 @@ test_migrate_employee
 test_migrate_malahit
     ${info}=    Get Server Info
     ${ver}=     Set Variable    ${info}[1]
-    Skip If    ${{$ver == '3.0'}}
+    Skip If    ${{$ver == '3'}}
     Test    ${EXECDIR}/files    STM.GDB
 
     FOR    ${node}    IN    Domains (8)    Tables (35)    Views (4)    Procedures (48)    Table Triggers (36)    Sequences (1)    Exceptions (1)

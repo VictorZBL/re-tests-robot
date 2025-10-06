@@ -14,7 +14,7 @@ test_check_default_active
 test_check_order_fields
     ${info}=    Get Server Info
     ${ver}=     Set Variable    ${info}[1]
-    Skip If    ${{$ver == '3.0'}}    
+    Skip If    ${{$ver == '3'}}    
     Create Index
     Select From Combo Box    1    EMPLOYEE
     Push Button    selectAllButton

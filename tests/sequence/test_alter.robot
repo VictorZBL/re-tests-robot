@@ -23,7 +23,7 @@ test_1
     ${increment}=    Get Text Field Value    2
     ${current_value}=    Get Text Field Value    3
     Should Be Equal As Strings    ${start_value}    100
-    IF  ${{$ver == '5.0'}}
+    IF  ${{$ver == '5'}}
         Should Be Equal As Strings    ${current_value}    90
     ELSE
         Should Be Equal As Strings    ${current_value}    100
@@ -45,7 +45,7 @@ test_2
     ${current_value}=    Get Text Field Value    3
     Should Be Equal As Strings    ${start_value}    10
     ${info}=    Get Server Info
-    IF  ${{$ver == '5.0'}}
+    IF  ${{$ver == '5'}}
         Should Be Equal As Strings    ${current_value}    9
     ELSE
         Should Be Equal As Strings    ${current_value}    10
@@ -75,7 +75,7 @@ test_4
     ${info}=    Get Server Info
     ${ver}=     Set Variable    ${info}[1]
     ${srv_ver}=    Set Variable    ${info}[2]
-    IF  ${{$ver == '5.0' and $srv_ver == 'RedDatabase'}}
+    IF  ${{$ver == '5' and $srv_ver == 'RedDatabase'}}
         Should Be Equal As Strings    ${tree1}    ['Domains', 'Tables', 'Global Temporary Tables', 'Views', 'Procedures (1)', 'Functions', 'Packages', 'Table Triggers', 'DDL Triggers', 'DB Triggers', 'Sequences', 'Exceptions', 'UDFs', 'Users', 'Roles', 'Indices', 'Tablespaces', 'Jobs']
         Should Be Equal As Strings    ${tree2}    ['Domains', 'Tables', 'Global Temporary Tables', 'Views', 'Procedures', 'Functions', 'Packages', 'Table Triggers', 'DDL Triggers', 'DB Triggers', 'Sequences', 'Exceptions', 'UDFs', 'Users', 'Roles', 'Indices', 'Tablespaces', 'Jobs']
     ELSE IF    ${{$ver == '2.6'}}  
