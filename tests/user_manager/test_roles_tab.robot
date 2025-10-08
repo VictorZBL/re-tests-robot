@@ -16,7 +16,7 @@ test_1
     Push Button      submitButton
     Select Dialog    Commiting changes
     Push Button      commitButton
-    Select Window    regexp=^Red.*
+    Select Main Window
     Sleep    1s
     ${row}=    Find Table Row   rolesTable    TEST_ROLE    Role name
     ${result}=    Execute    select CAST(rdb$role_name as VARCHAR(10)) from rdb$roles where rdb$role_name='TEST_ROLE'

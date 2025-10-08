@@ -26,7 +26,7 @@ test_1
         Push Button      commitButton
     END
     Sleep    1s
-    Select Window    regexp=^Red.*
+    Select Main Window
     ${row}=    Find Table Row    usersTable    TEST    User name
     ${cellValue}=    Get Table Cell Value    usersTable    ${row}    User name
     Should Be Equal  TEST    ${cellValue}

@@ -138,7 +138,7 @@ Init
     [Arguments]    ${name}=NEW_TRIGGER
     Lock Employee
     Open connection
-    Select From Tree Node Popup Menu   0    New Connection|DDL Triggers (0)    Create DDL trigger
+    Select From Tree Node Popup Menu   0    New Connection|DDL Triggers    Create DDL trigger
     Select Dialog    Create DDL trigger
     Clear Text Field    nameField
     Type Into Text Field    nameField    ${name}

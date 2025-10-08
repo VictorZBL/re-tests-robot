@@ -36,7 +36,7 @@ Init
     [Arguments]    ${name}    ${header}    ${body}
     Lock Employee
     Open connection
-    Select From Tree Node Popup Menu   0    New Connection|Packages (0)    Create package
+    Select From Tree Node Popup Menu   0    New Connection|Packages    Create package
     Select Dialog    Create package
     Clear Text Field    nameField
     Type Into Text Field    nameField    ${name}
@@ -98,6 +98,6 @@ Check error
     Push Button    Yes
     Sleep    0.1s
     Select Main Window
-    Tree Node Should Exist    0     New Connection|Packages (0)
+    Tree Node Should Exist    0     New Connection|Packages
     Set Jemmy Timeouts    0
     Tree Node Should Not Exist    0     New Connection|Packages (1)

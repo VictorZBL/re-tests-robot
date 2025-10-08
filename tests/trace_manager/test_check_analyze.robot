@@ -67,9 +67,9 @@ test_1
     ${plan}=    Get Text Field Value    6
     IF    $ver == '2.6'
         VAR    ${expected_plan}    PLAN JOIN (DEP NATURAL, EM INDEX (RDB$FOREIGN8))
-    ELSE IF    $ver == '3.0'
+    ELSE IF    $ver == '3'
         VAR    ${expected_plan}    Select Expression -> Nested Loop Join (inner) -> Table "DEPARTMENT" as "DEP" Full Scan -> Filter -> Table "EMPLOYEE" as "EM" Access By ID -> Bitmap -> Index "RDB$FOREIGN8" Range Scan (full match)
-    ELSE IF    $ver == '5.0'
+    ELSE IF    $ver == '5'
         VAR    ${expected_plan}    Select Expression -> Filter -> Hash Join (inner) -> Table "EMPLOYEE" as "EM" Full Scan -> Record Buffer (record length: 105) -> Table "DEPARTMENT" as "DEP" Full Scan 
     END
     Should Be Equal As Strings    ${plan}    ${expected_plan}    strip_spaces=${True}    collapse_spaces=${True}

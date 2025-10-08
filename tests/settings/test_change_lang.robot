@@ -18,7 +18,7 @@ test_no_reload
 test_auto_reload
     Init
     Run Keyword And Ignore Error    Push Button    Yes
-    Connect To Red Expert
+    Connect To RDBExpert
     Check
 
 *** Keywords ***

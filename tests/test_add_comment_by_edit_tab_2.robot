@@ -113,7 +113,7 @@ Check Skip
     ${info}=    Get Server Info
     ${ver}=     Set Variable    ${info}[1]
     ${srv_ver}=    Set Variable    ${info}[2]
-    Skip If    ${{not($ver == '5.0' and $srv_ver == 'RedDatabase')}}
+    Skip If    ${{not($ver == '5' and $srv_ver == 'RedDatabase')}}
 
 Check Skip 2.6
     ${info}=    Get Server Info
@@ -132,7 +132,7 @@ Check Comment
     Init Commit Window
 
 Init Commit Window
-    Select Window    regexp=^Red.*
+    Select Main Window
     Push Button    submitButton
     Select Dialog    dialog0
     Sleep    1s

@@ -20,12 +20,12 @@ test_create_table_columns
     Check Column Comment
 
 test_create_gtt
-    Init Create    Global Temporary Tables (0)    Create global temporary table
+    Init Create    Global Temporary Tables    Create global temporary table
     Init Column
     Check Comment
 
 test_create_gtt_columns
-    Init Create    Global Temporary Tables (0)    Create global temporary table
+    Init Create    Global Temporary Tables    Create global temporary table
     Init Column
     Check Column Comment
 
@@ -73,26 +73,26 @@ test_create_procedure_cursors
 
 test_create_function
     Check Skip 2.6
-    Init Create    Functions (0)    Create function
+    Init Create    Functions    Create function
     Check Comment
 
 test_create_function_arg
     Check Skip 2.6
-    Init Create    Functions (0)    Create function
+    Init Create    Functions    Create function
     Check Procedure    Arguments
 
 test_create_function_variables
     Check Skip 2.6
-    Init Create    Functions (0)    Create function
+    Init Create    Functions    Create function
     Check Procedure    Variables
 
 test_create_function_cursors
     Skip    Sometimes we got java NPE
-    Init Create    Functions (0)    Create function
+    Init Create    Functions    Create function
 
 test_create_package
     Check Skip 2.6
-    Init Create    Packages (0)    Create package
+    Init Create    Packages    Create package
     Check Comment
 
 test_create_trigger_for_table
@@ -102,12 +102,12 @@ test_create_trigger_for_table
 
 test_create_trigger_for_ddl
     Check Skip 2.6
-    Init Create    DDL Triggers (0)    Create DDL trigger
+    Init Create    DDL Triggers    Create DDL trigger
     Check Check Box    anyStatementCheck
     Check Comment
 
 test_create_trigger_for_db
-    Init Create    DB Triggers (0)    Create DB trigger
+    Init Create    DB Triggers    Create DB trigger
     Check Comment
 
 test_create_sequence
@@ -119,7 +119,7 @@ test_create_exception
     Check Comment
 
 test_create_udf
-    Init Create    UDFs (0)    Create UDF
+    Init Create    UDFs    Create UDF
     Check Comment 
 
 test_create_index
@@ -129,12 +129,12 @@ test_create_index
 
 test_create_ts
     Check Skip
-    Init Create    Tablespaces (0)    Create tablespace
+    Init Create    Tablespaces    Create tablespace
     Check Comment
 
 test_create_job
     Check Skip
-    Init Create    Jobs (0)    Create job
+    Init Create    Jobs    Create job
     Select From Combo Box    jobTypeCombo    BASH
     Check Comment
 
@@ -143,7 +143,7 @@ Check Skip
     ${info}=    Get Server Info
     ${ver}=     Set Variable    ${info}[1]
     ${srv_ver}=    Set Variable    ${info}[2]
-    Skip If    ${{not($ver == '5.0' and $srv_ver == 'RedDatabase')}}
+    Skip If    ${{not($ver == '5' and $srv_ver == 'RedDatabase')}}
 
 Check Skip 2.6
     ${info}=    Get Server Info

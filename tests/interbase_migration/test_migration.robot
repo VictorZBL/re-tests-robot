@@ -30,6 +30,9 @@ test_migrate_employee
     Compare Data    ${path_to_interbase_db}/employee.gdb
 
 test_migrate_malahit
+    ${info}=    Get Server Info
+    ${ver}=     Set Variable    ${info}[1]
+    Skip If    ${{$ver == '3'}}
     Test    ${EXECDIR}/files    STM.GDB
 
     FOR    ${node}    IN    Domains (8)    Tables (35)    Views (4)    Procedures (48)    Table Triggers (36)    Sequences (1)    Exceptions (1)
@@ -157,7 +160,7 @@ Suite Setup
     
     Backup Drivers
     ${path_to_exe}=    Get Path
-    Start Application    red_expert    ${path_to_exe}    timeout=20    remote_port=60900
+    Start Application    rdb_expert    ${path_to_exe}    timeout=20    remote_port=60900
     Select Main Window
     
     Select From Main Menu    System|Drivers

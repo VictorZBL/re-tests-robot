@@ -10,7 +10,7 @@ test_execute
     ${info}=    Get Server Info
     ${ver}=     Set Variable    ${info}[1]
     ${srv_ver}=    Set Variable    ${info}[2]
-    IF    ${{$ver == '5.0' and $srv_ver == 'RedDatabase'}}
+    IF    ${{$ver == '5' and $srv_ver == 'RedDatabase'}}
         Init    test_script5.sql
     ELSE IF    ${{$ver == '2.6'}}
         Init    test_script26.sql

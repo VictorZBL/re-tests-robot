@@ -43,19 +43,19 @@ test_switch_database
         fdb.Create Database    database=${test_base_path}    user=SYSDBA    password=masterkey
     END
     Create Connect    ${test_base_path}    ${ver}
-    Select Window    regexp=^Red.*
+    Select Main Window
     Push Button    comparerDB-command
     Select From Combo Box    dbMasterComboBox    New Connection 1
     Push Button    selectAllAttributesButton
     Check Compare DB    Objects to create - 59    Objects to drop - 0
-    Select Window    regexp=^Red.*
+    Select Main Window
     Push Button    switchTargetSourceButton
     Check Compare DB    Objects to create - 0    Objects to drop - 59
 
 *** Keywords ***
 Create Connect
     [Arguments]    ${test_base_path}    ${ver}
-    Select Window    regexp=^Red.*
+    Select Main Window
     Push Button    new-connection-command
     Sleep    1s
     IF    ${{$ver == '2.6'}}

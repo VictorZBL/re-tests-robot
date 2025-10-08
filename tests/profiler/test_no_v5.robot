@@ -9,7 +9,7 @@ Test Teardown    Teardown after every tests
 test_1
     ${info}=    Get Server Info
     ${ver}=     Set Variable    ${info}[1]
-    Skip If    ${{$ver == '5.0'}}
+    Skip If    ${{$ver == '5'}}
     Open connection
     Select From Main Menu    Tools|Profiler
     Push Button    startButton

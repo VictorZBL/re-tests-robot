@@ -314,7 +314,7 @@ Start App And Load
 Load
     System Exit
     ${path_to_exe}=    Get Path
-    Start Application    red_expert    ${path_to_exe}    timeout=20   
+    Start Application    rdb_expert    ${path_to_exe}    timeout=20   
     Select Main Window
     Open connection
     Select From Main Menu    Tools|Profiler

@@ -10,7 +10,7 @@ test_1
     ${info}=    Get Server Info
     ${ver}=     Set Variable    ${info}[1]
     ${srv_ver}=     Set Variable    ${info}[2]
-    Skip If    ${{$ver == '3.0' and $srv_ver == 'Firebird'}}
+    Skip If    ${{$ver == '3' and $srv_ver == 'Firebird'}}
     Lock Employee
     Execute Immediate    CREATE OR ALTER PROCEDURE TEST AS BEGIN END
     Open connection

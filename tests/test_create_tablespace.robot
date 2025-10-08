@@ -11,7 +11,7 @@ test_check_cursor
     Check Skip
     Open connection
     Expand Tree Node    0    New Connection    
-    Select From Tree Node Popup Menu    0    New Connection|Tablespaces (0)    Create tablespace
+    Select From Tree Node Popup Menu    0    New Connection|Tablespaces    Create tablespace
     Select Dialog    Create tablespace
     Type Into Text Field    1    test_file.ts
     Push Button    submitButton
@@ -24,4 +24,4 @@ Check Skip
     ${info}=    Get Server Info
     ${ver}=     Set Variable    ${info}[1]
     ${srv_ver}=    Set Variable    ${info}[2]
-    Skip If    ${{not($ver == '5.0' and $srv_ver == 'RedDatabase')}}
+    Skip If    ${{not($ver == '5' and $srv_ver == 'RedDatabase')}}

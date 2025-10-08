@@ -1,4 +1,4 @@
 *** Settings ***
 Resource    ../files/keywords.resource
-Suite Teardown    Kill Redexpert
+Suite Teardown    Kill Rdbexpert
 Test Timeout    60s

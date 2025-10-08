@@ -201,7 +201,7 @@ Check commit
     ${info}=    Get Server Info
     ${ver}=     Set Variable    ${info}[1]
     ${srv_ver}=    Set Variable    ${info}[2]
-    IF    ${{$ver == '5.0' and $srv_ver == 'RedDatabase'}}
+    IF    ${{$ver == '5' and $srv_ver == 'RedDatabase'}}
         IF    '${TEST_NAME}' == 'test_check'
             VAR    ${check_ts}    ${EMPTY}
         ELSE
@@ -241,7 +241,7 @@ Check Skip
     ${info}=    Get Server Info
     ${ver}=     Set Variable    ${info}[1]
     ${srv_ver}=    Set Variable    ${info}[2]
-    Skip If    ${{not($ver == '5.0' and $srv_ver == 'RedDatabase')}}
+    Skip If    ${{not($ver == '5' and $srv_ver == 'RedDatabase')}}
 
 Select References
     Select From Combo Box    referenceTablesCombo    CUSTOMER
