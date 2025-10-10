@@ -5,7 +5,7 @@ Library    Collections
 Resource    ../files/keywords.resource
 Test Setup       Setup before every tests
 Test Teardown    Teardown after every tests
-# Suite Setup    Skip
+Suite Setup    Skip
 
 *** Test Cases ***
 test_1
