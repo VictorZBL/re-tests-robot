@@ -22,6 +22,9 @@ test_1
     ${info}=    Get Server Info
     ${ver}=     Set Variable    ${info}[1]
     ${srv_ver}=    Set Variable    ${info}[2]
+    IF    $ver != '2.6'
+        ${ver}=    Set Variable    ${ver}.0
+    END
     Select From Combo Box    0    ${srv_ver} ${ver}
     Check Check Box    checkBoxlog_statement_finish
     Check Check Box    checkBoxprint_plan

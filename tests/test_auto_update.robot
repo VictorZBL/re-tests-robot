@@ -78,7 +78,7 @@ No Reload
     System Exit    0
     Sleep       10s
     Start Application    rdb_expert    ${path_to_exe}    timeout=30    remote_port=60900
-    Select Window    regexp=^RDBExpert - 2025\.09.*
+    Select Window    regexp=^RDBExpert - 2025\.09
 
 Auto Reload
     Push Button      Yes
