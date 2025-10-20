@@ -553,3 +553,48 @@ def compare_data(path_to_ibdb: str):
             cur.close()
 
         assert ib_result_data.sort() == rdb_result_data.sort()
+
+def get_system_privileges():
+    all_system_privileges = ["USER_MANAGEMENT",
+                             "READ_RAW_PAGES",
+                             "CREATE_USER_TYPES",
+                             "USE_NBACKUP_UTILITY",
+                             "CHANGE_SHUTDOWN_MODE",
+                             "TRACE_ANY_ATTACHMENT",
+                             "MONITOR_ANY_ATTACHMENT",
+                             "CREATE_DATABASE",
+                             "DROP_DATABASE",
+                             "USE_GBAK_UTILITY",
+                             "USE_GSTAT_UTILITY",
+                             "USE_GFIX_UTILITY",
+                             "IGNORE_DB_TRIGGERS",
+                             "CHANGE_HEADER_SETTINGS",
+                             "SELECT_ANY_OBJECT_IN_DATABASE",
+                             "ACCESS_ANY_OBJECT_IN_DATABASE",
+                             "MODIFY_ANY_OBJECT_IN_DATABASE",
+                             "CHANGE_MAPPING_RULES",
+                             "USE_GRANTED_BY_CLAUSE",
+                             "GRANT_REVOKE_ON_ANY_OBJECT",
+                             "GRANT_REVOKE_ANY_DDL_RIGHT",
+                             "CREATE_PRIVILEGED_ROLES",
+                             "GET_DBCRYPT_INFO",
+                             "MODIFY_EXT_CONN_POOL",
+                             "REPLICATE_INTO_DATABASE",
+                             "PROFILE_ANY_ATTACHMENT"]
+    
+    _, _, srv_version = get_server_info()
+    if srv_version == "RedDatabase":
+        all_system_privileges.append("EXECUTE_ANY_OBJECT_IN_DATABASE")
+        all_system_privileges.append("UPDATE_ANY_OBJECT_IN_DATABASE")
+    else:
+        all_system_privileges.append("ACCESS_SHUTDOWN_DATABASE")
+
+    current_system_privileges = []
+    for privileges in all_system_privileges:
+        with fdb.connect("localhost:employee.fdb", user='TEST_USER', password='pass', role='TEST_ROLE') as con:
+            with con.cursor() as cur:
+                cur.execute(f"select RDB$SYSTEM_PRIVILEGE({privileges}) from RDB$DATABASE")
+                result = cur.fetchall()
+        if result[0][0]:
+            current_system_privileges.append(privileges)
+    return current_system_privileges
