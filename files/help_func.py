@@ -150,7 +150,10 @@ def copy_dist_path():
     path_to_exe = return_path + f"/bin/RDBExpert{get_exe()}"
     return path_to_exe
 
-def get_server_info():    
+def get_server_info():
+    """
+    Return home_directory, version, srv_version in this position
+    """
     if is_rdb26():
         home_directory = "/opt/RedDatabase/" if platform.system() == "Linux" else "C:\\RedDatabase(x64)\\"
         version = "2.6"
