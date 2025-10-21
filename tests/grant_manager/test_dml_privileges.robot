@@ -43,7 +43,7 @@ test_check_for_privileges_list
     @{expected_privileges_for_list}=    Create List    SYSDBA
     Should Be Equal As Strings    ${privileges_for_list}    ${expected_privileges_for_list}
     
-    Select From Combo Box    1    Roles
+    Select From Combo Box    userTypeCombo    Roles
     @{privileges_for_list}=    Get List Values    0
     IF    $ver == '2.6'
         @{expected_privileges_for_list}=    Create List    RDB$ADMIN    SECADMIN    PUBLIC
@@ -54,29 +54,29 @@ test_check_for_privileges_list
     END
     Should Be Equal As Strings    ${privileges_for_list}    ${expected_privileges_for_list}
     
-    Select From Combo Box    1    Views
+    Select From Combo Box    userTypeCombo    Views
     @{privileges_for_list}=    Get List Values    0
     @{expected_privileges_for_list}=    Create List    PHONE_LIST
     Should Be Equal As Strings    ${privileges_for_list}    ${expected_privileges_for_list}
     
-    Select From Combo Box    1    Triggers
+    Select From Combo Box    userTypeCombo    Triggers
     @{privileges_for_list}=    Get List Values    0
     @{expected_privileges_for_list}=    Create List    POST_NEW_ORDER    SAVE_SALARY_CHANGE    SET_CUST_NO    SET_EMP_NO
     Should Be Equal As Strings    ${privileges_for_list}    ${expected_privileges_for_list}
 
-    Select From Combo Box    1    Procedures
+    Select From Combo Box    userTypeCombo    Procedures
     @{privileges_for_list}=    Get List Values    0
     Log Variables
     @{expected_privileges_for_list}=    Create List    ADD_EMP_PROJ    ALL_LANGS    DELETE_EMPLOYEE    DEPT_BUDGET    GET_EMP_PROJ    MAIL_LABEL    ORG_CHART    SHIP_ORDER    SHOW_LANGS    SUB_TOT_BUDGET
     Should Be Equal As Strings    ${privileges_for_list}    ${expected_privileges_for_list}
     
     IF    $ver != '2.6'
-        Select From Combo Box    1    Functions
+        Select From Combo Box    userTypeCombo    Functions
         @{privileges_for_list}=    Get List Values    0
         @{expected_privileges_for_list}=    Create List    NEW_FUNC
         Should Be Equal As Strings    ${privileges_for_list}    ${expected_privileges_for_list}
 
-        Select From Combo Box    1    Packages
+        Select From Combo Box    userTypeCombo    Packages
         @{privileges_for_list}=    Get List Values    0
         @{expected_privileges_for_list}=    Create List    NEW_PACK
         Should Be Equal As Strings    ${privileges_for_list}    ${expected_privileges_for_list}
@@ -121,7 +121,7 @@ test_check_grant
     Select From Combo Box    privilegesTypeCombo    DML privileges
     Select From Combo Box    userTypeCombo    Roles
     Click On List Item    0    TEST_ROLE
-    Sleep    1s
+    Sleep    2s
 
     Select Context    DMLPrivilegesPanel
     ${values}=    Get Table Column Values    tableDMLPrivileges    Object
@@ -135,7 +135,7 @@ test_check_grant
     Should Be Equal As Strings    ${result}    [('I', 1, 'JOB '), ('U', 0, 'JOB ')]    strip_spaces=${true}    collapse_spaces=${true}
 
     Click On Component    icon_grant_row
-    Sleep    1s
+    Sleep    2s
     
     #all JOB t
     ${result}=    Get DML Privileges
@@ -143,10 +143,10 @@ test_check_grant
 
     Click On Table Cell    tableDMLPrivileges    ${index}    Update
     Click On Component    icon_revoke_row
-
+    Sleep    2s
     Click On Table Cell    tableDMLPrivileges    ${index}    Update
     Click On Component    icon_grant_column
-    Sleep    1s
+    Sleep    2s
 
     #all update t
     ${result}=    Get DML Privileges
@@ -154,13 +154,15 @@ test_check_grant
 
     Click On Table Cell    tableDMLPrivileges    ${index}    Update
     Click On Component    icon_revoke_column
-
+    Sleep    2s
+    
     Click On Table Cell    tableDMLPrivileges    ${index}    Update
     Click On Component    icon_grant_column_admin
-
+    Sleep    2s
+    
     Click On Table Cell    tableDMLPrivileges    ${index}    Update
     Click On Component    icon_grant_row_admin
-    Sleep    1s
+    Sleep    2s
 
     #all Update wgo + all job t wgo
     ${result}=    Get DML Privileges
@@ -168,7 +170,7 @@ test_check_grant
 
     Click On Table Cell    tableDMLPrivileges    ${index}    Update
     Click On Component    icon_grant_all
-    Sleep    1s
+    Sleep    2s
 
     IF    ${{$ver != '2.6'}}
         VAR    ${expected_result_3}    [('X', 0, 'ADD_EMP_PROJ '), ('X', 0, 'ALL_LANGS '), ('D', 0, 'COUNTRY '), ('I', 0, 'COUNTRY '), ('R', 0, 'COUNTRY '), ('S', 0, 'COUNTRY '), ('U', 0, 'COUNTRY '), ('D', 0, 'CUSTOMER '), ('I', 0, 'CUSTOMER '), ('R', 0, 'CUSTOMER '), ('S', 0, 'CUSTOMER '), ('U', 0, 'CUSTOMER '), ('G', 0, 'CUSTOMER_CHECK '), ('G', 0, 'CUSTOMER_ON_HOLD '), ('G', 0, 'CUST_NO_GEN '), ('X', 0, 'DELETE_EMPLOYEE '), ('D', 0, 'DEPARTMENT '), ('I', 0, 'DEPARTMENT '), ('R', 0, 'DEPARTMENT '), ('S', 0, 'DEPARTMENT '), ('U', 0, 'DEPARTMENT '), ('X', 0, 'DEPT_BUDGET '), ('D', 0, 'EMPLOYEE '), ('I', 0, 'EMPLOYEE '), ('R', 0, 'EMPLOYEE '), ('S', 0, 'EMPLOYEE '), ('U', 0, 'EMPLOYEE '), ('D', 0, 'EMPLOYEE_PROJECT '), ('I', 0, 'EMPLOYEE_PROJECT '), ('R', 0, 'EMPLOYEE_PROJECT '), ('S', 0, 'EMPLOYEE_PROJECT '), ('U', 0, 'EMPLOYEE_PROJECT '), ('G', 0, 'EMP_NO_GEN '), ('X', 0, 'GET_EMP_PROJ '), ('D', 0, 'JOB '), ('I', 0, 'JOB '), ('R', 0, 'JOB '), ('S', 0, 'JOB '), ('U', 0, 'JOB '), ('X', 0, 'MAIL_LABEL '), ('X', 0, 'NEW_FUNC '), ('X', 0, 'NEW_PACK '), ('G', 0, 'ORDER_ALREADY_SHIPPED'), ('X', 0, 'ORG_CHART '), ('D', 0, 'PHONE_LIST '), ('I', 0, 'PHONE_LIST '), ('R', 0, 'PHONE_LIST '), ('S', 0, 'PHONE_LIST '), ('U', 0, 'PHONE_LIST '), ('D', 0, 'PROJECT '), ('I', 0, 'PROJECT '), ('R', 0, 'PROJECT '), ('S', 0, 'PROJECT '), ('U', 0, 'PROJECT '), ('D', 0, 'PROJ_DEPT_BUDGET '), ('I', 0, 'PROJ_DEPT_BUDGET '), ('R', 0, 'PROJ_DEPT_BUDGET '), ('S', 0, 'PROJ_DEPT_BUDGET '), ('U', 0, 'PROJ_DEPT_BUDGET '), ('G', 0, 'REASSIGN_SALES '), ('D', 0, 'SALARY_HISTORY '), ('I', 0, 'SALARY_HISTORY '), ('R', 0, 'SALARY_HISTORY '), ('S', 0, 'SALARY_HISTORY '), ('U', 0, 'SALARY_HISTORY '), ('D', 0, 'SALES '), ('I', 0, 'SALES '), ('R', 0, 'SALES '), ('S', 0, 'SALES '), ('U', 0, 'SALES '), ('X', 0, 'SHIP_ORDER '), ('X', 0, 'SHOW_LANGS '), ('X', 0, 'SUB_TOT_BUDGET '), ('G', 0, 'UNKNOWN_EMP_ID ')]
@@ -186,7 +188,7 @@ test_check_grant
 
     Click On Table Cell    tableDMLPrivileges    ${index}    Update
     Click On Component    icon_grant_all_admin
-    Sleep    1s
+    Sleep    2s
 
     #all wgo
     ${result}=    Get DML Privileges
@@ -194,7 +196,7 @@ test_check_grant
 
     Click On Table Cell    tableDMLPrivileges    ${index}    Update
     Click On Component    icon_revoke_all
-    Sleep    1s
+    Sleep    2s
     
     #revoke all
     ${result}=    Get DML Privileges
@@ -208,7 +210,7 @@ test_check_grant_column
     Select From Combo Box    privilegesTypeCombo    DML privileges
     Select From Combo Box    userTypeCombo    Roles
     Click On List Item    0    TEST_ROLE
-    Sleep    1s
+    Sleep    2s
 
     Select Context    DMLPrivilegesPanel
 
@@ -224,7 +226,7 @@ test_check_grant_column
     Click On Table Cell    privilegesForFieldTable    ${index}    Update    clickCountString=2
     Click On Table Cell    privilegesForFieldTable    ${index}    References    clickCountString=2
     Click On Table Cell    privilegesForFieldTable    ${index}    References    clickCountString=2
-    Sleep    1s
+    Sleep    2s
 
     #Update JOB_TITLE c and References wgo JOB_TITLE
     ${result}=    Get DML Privileges For Field
@@ -232,8 +234,10 @@ test_check_grant_column
 
     Click On Table Cell    privilegesForFieldTable    ${index}    Update
     Click On Component    icon_grant_column
+    Sleep    2s
+    
     Click On Component    icon_grant_row
-    Sleep    1s
+    Sleep    2s
 
     #all Update JOB c and References JOB_TITLE
     ${result}=    Get DML Privileges For Field
@@ -241,8 +245,10 @@ test_check_grant_column
 
     Click On Table Cell    privilegesForFieldTable    ${index}    Update
     Click On Component    icon_grant_column_admin
+    Sleep    2s
+    
     Click On Component    icon_grant_row_admin
-    Sleep    1s
+    Sleep    2s
 
     #all wgo Update JOB c and wgo References JOB_TITLE
     ${result}=    Get DML Privileges For Field
@@ -250,8 +256,10 @@ test_check_grant_column
 
     Click On Table Cell    privilegesForFieldTable    ${index}    Update
     Click On Component    icon_revoke_column
+    Sleep    2s
+    
     Click On Component    icon_revoke_row
-    Sleep    1s
+    Sleep    2s
 
     #all revoke
     ${result}=    Get DML Privileges For Field
