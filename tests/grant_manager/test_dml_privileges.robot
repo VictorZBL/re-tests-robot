@@ -31,6 +31,8 @@ test_check_filter
     Should Be Equal As Strings    ${column_values}    ${expected_column_values2}
 
 test_check_for_privileges_list
+    [Setup]
+    Lock Employee
     ${info}=    Get Server Info
     ${ver}=     Set Variable    ${info}[1]
     ${srv_ver} =    Set Variable    ${info}[2]
@@ -39,6 +41,7 @@ test_check_for_privileges_list
         Execute Immediate    CREATE PACKAGE NEW_PACK AS BEGIN END
         Execute Immediate    RECREATE PACKAGE BODY NEW_PACK AS BEGIN END
     END
+    Init Grant Manager
     @{privileges_for_list}=    Get List Values    0
     @{expected_privileges_for_list}=    Create List    SYSDBA
     Should Be Equal As Strings    ${privileges_for_list}    ${expected_privileges_for_list}
