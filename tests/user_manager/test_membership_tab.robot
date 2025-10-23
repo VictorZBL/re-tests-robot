@@ -38,13 +38,22 @@ test_check_membership
     ${values}=    Get Table Values    usersRolesListTable
     VAR    ${index}    ${{$values.index(['BTEST_MEMBERSHIP_ROLE'])}}
     Click On Table Cell    usersRolesListTable    ${index}    0
-    ${row}=    Find Table Row    membershipTable    ATEST_MEMBERSHIP_ROLE    Roles
-    Click On Table Cell    membershipTable    ${row}    Default    2
-    ${cell_value}=    Get Table Cell Value    membershipTable    ${row}    Grant    model
-    Should Be Equal As Strings    ${cell_value}    true
+    
+    ${info}=    Get Server Info
+    ${ver}=     Set Variable    ${info}[1]
+    ${srv_version}=    Set Variable    ${info}[2]
+    IF    ${{not(($srv_version == 'Firebird' and $ver == '3') or $ver == '2.6')}}
+        ${row}=    Find Table Row    membershipTable    ATEST_MEMBERSHIP_ROLE    Roles
+        Click On Table Cell    membershipTable    ${row}    Default    2
+        ${cell_value}=    Get Table Cell Value    membershipTable    ${row}    Grant    model
+        Should Be Equal As Strings    ${cell_value}    true
+        VAR    ${expected_result}    [('ATEST_MEMBERSHIP_USER', 'M', 0, 8), ('BTEST_MEMBERSHIP_ROLE', 'M', 0, 13), ('BTEST_MEMBERSHIP_USER', 'M', 2, 8)]
+    ELSE
+        VAR    ${expected_result}    [('ATEST_MEMBERSHIP_USER', 'M', 0, 8), ('BTEST_MEMBERSHIP_USER', 'M', 2, 8)]
+    END
 
     ${result}=    Check membership
-    Should Be Equal As Strings    ${result}    [('ATEST_MEMBERSHIP_USER', 'M', 0, 8), ('BTEST_MEMBERSHIP_ROLE', 'M', 0, 13), ('BTEST_MEMBERSHIP_USER', 'M', 2, 8)]
+    Should Be Equal As Strings    ${result}    ${expected_result}
 
     Select Main Window
     Select Tab As Context    Membership
@@ -73,17 +82,22 @@ test_check_membership
     ${cell_value}=    Get Table Cell Value    membershipTable    ${row}    Admin Option    model
     Should Be Equal As Strings    ${cell_value}    false
 
-    ${row}=    Find Table Row    membershipTable    BTEST_MEMBERSHIP_ROLE    Users/Roles
-    ${cell_value}=    Get Table Cell Value    membershipTable    ${row}    User Type
-    Should Be Equal As Strings    ${cell_value}    Role
-    ${cell_value}=    Get Table Cell Value    membershipTable    ${row}    Grant    model
-    Should Be Equal As Strings    ${cell_value}    true
-    ${cell_value}=    Get Table Cell Value    membershipTable    ${row}    Default    model
-    Should Be Equal As Strings    ${cell_value}    true
-    Click On Table Cell    membershipTable    ${row}    Grant    2
-    ${cell_value}=    Get Table Cell Value    membershipTable    ${row}    Default    model
-    Should Be Equal As Strings    ${cell_value}    false
-    
+    ${info}=    Get Server Info
+    ${ver}=     Set Variable    ${info}[1]
+    ${srv_version}=    Set Variable    ${info}[2]
+    IF    ${{not(($srv_version == 'Firebird' and $ver == '3') or $ver == '2.6')}}
+        ${row}=    Find Table Row    membershipTable    BTEST_MEMBERSHIP_ROLE    Users/Roles
+        ${cell_value}=    Get Table Cell Value    membershipTable    ${row}    User Type
+        Should Be Equal As Strings    ${cell_value}    Role
+        ${cell_value}=    Get Table Cell Value    membershipTable    ${row}    Grant    model
+        Should Be Equal As Strings    ${cell_value}    true
+        ${cell_value}=    Get Table Cell Value    membershipTable    ${row}    Default    model
+        Should Be Equal As Strings    ${cell_value}    true
+        Click On Table Cell    membershipTable    ${row}    Grant    2
+        ${cell_value}=    Get Table Cell Value    membershipTable    ${row}    Default    model
+        Should Be Equal As Strings    ${cell_value}    false
+    END
+
     ${result}=    Check membership
     Should Be Equal As Strings    ${result}    []
 
