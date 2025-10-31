@@ -66,6 +66,7 @@ Create Connect
     Type Into Text Field    userField    sysdba
     Type Into Text Field    passwordField    masterkey
     Check Check Box    Store Password
+    Push Button    saveButton
 
 Check Compare DB
     [Arguments]    ${label_create}    ${label_drop}    

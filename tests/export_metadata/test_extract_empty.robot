@@ -34,6 +34,7 @@ test_extract
     Type Into Text Field    userField    sysdba
     Type Into Text Field    passwordField    masterkey
     Check Check Box    Store Password
+    Push Button    saveButton
     
     Push Button    extract-metadata-command
     Select From Combo Box    dbTargetComboBox    New Connection 1

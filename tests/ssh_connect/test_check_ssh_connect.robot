@@ -136,7 +136,7 @@ Setup
     Type Into Text Field    10    ${password}
 
     Select From Combo Box    charsetsCombo    UTF8
-
+    Push Button    saveButton
     Push Button    testButton
     Select Dialog    Message
     Label Text Should Be    0    The connection test was successful!

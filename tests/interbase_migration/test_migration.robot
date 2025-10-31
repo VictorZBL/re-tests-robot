@@ -59,6 +59,7 @@ test_check_error_and_remove_migrated_db
     Init connect    InterDriver    5051    ${EXECDIR}/files/STM.GDB
     Select From Combo Box    serverCombo    Other   
     Check Check Box    Store Password
+    Push Button    saveButton
 
     Select From Main Menu     Database|Convert Database
     
@@ -196,7 +197,7 @@ Test
     Select From Combo Box    charsetsCombo    WIN1251
     Select From Combo Box    serverCombo    Other   
     Check Check Box    Store Password
-
+    Push Button    saveButton
     Push Button    connectButton
     Sleep    1s
     # Select From Main Menu     Database|Convert Database
