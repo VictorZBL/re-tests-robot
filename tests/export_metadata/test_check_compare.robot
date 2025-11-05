@@ -13,19 +13,15 @@ test_same_compare
     Push Button    comparerDB-command
     Push Button    compareButton
     Select Dialog    Warning
-    Run Keyword And Continue On Failure    Label Text Should Be    0    Unable to compare.
-    Run Keyword And Continue On Failure    Label Text Should Be    1    The same connections selected.
+    Label Text Should Be    0    Unable to compare.
+    Label Text Should Be    1    The same connections selected.
 
 test_check_warning
     Push Button    new-connection-command
     Push Button    comparerDB-command
-    Select From Combo Box    dbMasterComboBox    New Connection 1
-    Push Button    selectAllPropertiesButton
-    Push Button    selectAllPropertiesButton
-    Push Button    compareButton
+    Run Keyword In Separate Thread    Select From Combo Box    dbMasterComboBox    New Connection 1    don't verify
     Select Dialog    Warning
-    Run Keyword And Continue On Failure    Label Text Should Be    0    Unable to compare.
-    Run Keyword And Continue On Failure    Label Text Should Be    1    At least one of the connections is inactive.
+    Label Text Should Be    0    The tool does not support work with selected connection.
 
 
 test_switch_database
